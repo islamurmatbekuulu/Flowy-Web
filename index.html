@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowy — The day you meant to have</title>
+    <meta name="description" content="Flowy intercepts reflexive phone use and offers a trade instead of a block. Do the work, earn the scroll. Join the waitlist.">
+    <meta property="og:title" content="For people who've deleted every focus app they've ever tried.">
+    <meta property="og:description" content="Flowy doesn't block your apps. It offers you a trade. Join the waitlist.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://heyflowy.app">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="For people who've deleted every focus app they've ever tried.">
+    <meta name="twitter:description" content="Flowy doesn't block your apps. It offers you a trade.">
+    <meta name="theme-color" content="#F4F5F7">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --flow-blue: #0A64BC;
+            --blue-light: #1A7FE0;
+            --blue-pale: #EBF3FC;
+            --flowy-amber: #E8830A;
+            --flowy-green: #2EB67D;
+            --ink-900: #0D0D0D;
+            --ink-700: #3A3A3C;
+            --ink-500: #8E8E93;
+            --ink-300: #A1A1A6; /* Darkened from #C7C7CC for better accessibility/contrast */
+            --page-bg: #F4F5F7;
+            --white: #FFFFFF;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--page-bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--ink-900);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* AMBIENT LIGHTING */
+        .hero-ambient {
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140%;
+            height: 70%;
+            background: radial-gradient(ellipse at 50% 40%, rgba(10,100,188,0.07) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .tagline-ambient {
+            position: absolute;
+            bottom: -10%;
+            right: -10%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(ellipse, rgba(10,100,188,0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* TYPOGRAPHY */
+        .headline {
+            font-size: 52px;
+            font-weight: 800;
+            color: var(--ink-900);
+            letter-spacing: -2.5px;
+            line-height: 1.08;
+        }
+
+        .sub-headline {
+            font-size: 19px;
+            font-weight: 400;
+            color: var(--ink-500);
+            letter-spacing: -0.2px;
+            line-height: 1.7;
+        }
+
+        .eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--ink-300);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink-900);
+            letter-spacing: -0.4px;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .card-body {
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--ink-500);
+            letter-spacing: 0;
+            line-height: 1.7;
+        }
+
+        .tagline {
+            font-size: 44px;
+            font-weight: 800;
+            color: var(--ink-900);
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .tagline-sub {
+            font-size: 17px;
+            font-weight: 400;
+            color: var(--ink-500);
+            letter-spacing: 0;
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+
+        .small-text {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--ink-300);
+            line-height: 1.5;
+            margin-top: 14px;
+        }
+
+        /* LAYOUT */
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 0 48px;
+            position: relative;
+            z-index: 2;
+        }
+
+        section {
+            padding-top: 140px;
+            padding-bottom: 140px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* NAVIGATION */
+        .site-nav {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 24px 0;
+            transition: background 0.2s, backdrop-filter 0.2s, padding 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ink-900);
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+
+        .nav-link {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--flow-blue);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        
+        .nav-link:hover {
+            color: var(--blue-light);
+        }
+
+        /* STICKY NAV STATE (Level 3 Glass) */
+        .site-nav.is-sticky {
+            padding: 16px 0;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            box-shadow: 0 1px 0 0 rgba(255,255,255,0.80) inset, 0 1px 0 rgba(0,0,0,0.06);
+        }
+
+        /* GLASS MATERIAL BASE */
+        .glass {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.70);
+            border-radius: 20px;
+        }
+
+        .glass::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg, 
+                rgba(255,255,255,0.50) 0%, 
+                rgba(255,255,255,0.10) 40%, 
+                transparent 60%
+            );
+            pointer-events: none;
+            border-radius: inherit;
+            z-index: 0;
+        }
+
+        .glass > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* LEVEL 1 GLASS (Cards) */
+        .glass-l1 {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: 
+                0 1px 0 0 rgba(255,255,255,0.80) inset,
+                0 0 0 0.5px rgba(0,0,0,0.05),
+                0 8px 32px rgba(0,0,0,0.06);
+        }
+
+        /* COMPONENTS */
+        .card {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .step-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 13px;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        .step-num.c-01 { color: var(--flow-blue); }
+        .step-num.c-02 { color: var(--flowy-amber); }
+        .step-num.c-03 { color: var(--flowy-green); }
+
+        .cards-3 {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 32px;
+        }
+
+        .cards-3 .card {
+            align-self: center;
+        }
+
+        /* UI MOCKUP STYLING */
+        .mockup-card {
+            max-width: 280px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 24px;
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mockup-emoji {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .mockup-heading {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--ink-900);
+            text-align: center;
+            margin: 0;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .mockup-subtext {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--ink-500);
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        .mockup-inner-card {
+            background: rgba(232, 131, 10, 0.06);
+            border: 1px solid rgba(232, 131, 10, 0.15);
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .mockup-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--ink-300);
+        }
+
+        .mockup-task {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--ink-900);
+            margin-top: 6px;
+            line-height: 1.3;
+        }
+
+        .mockup-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .mockup-detail {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--ink-500);
+        }
+
+        .mockup-source {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--flowy-amber);
+            /* Removed uppercase and letter-spacing to prevent wrapping and keep it clean */
+        }
+
+        .mockup-btn-primary {
+            width: 100%;
+            background: var(--flowy-amber);
+            color: var(--white);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            padding: 13px;
+            border-radius: 12px;
+            margin-top: 16px;
+            border: none;
+            box-shadow: none; /* explicitly removing any gradient/sheen artifacts */
+        }
+
+        .mockup-btn-secondary {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            color: var(--ink-300);
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            padding: 11px;
+            border-radius: 12px;
+            margin-top: 8px;
+        }
+
+        /* FORMS & INPUTS */
+        .form-group {
+            display: grid;
+            grid-template-areas: "inner";
+            max-width: 440px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .email-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.50);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--ink-900);
+            outline: none;
+            transition: border 0.15s, box-shadow 0.15s;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); /* Recessed inner shadow */
+            width: 100%;
+        }
+
+        .email-input::placeholder {
+            color: var(--ink-300);
+        }
+
+        .email-input:focus {
+            border-color: rgba(10,100,188,0.40);
+            box-shadow: 0 0 0 3px rgba(10,100,188,0.10);
+        }
+
+        .cta-button {
+            flex: none;
+            background: var(--flow-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            padding: 15px 32px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s, box-shadow 0.15s, transform 0.1s ease;
+            white-space: nowrap;
+            -webkit-appearance: none;
+        }
+
+        .cta-button:hover {
+            background: var(--blue-light);
+            box-shadow: 0 4px 20px rgba(10,100,188,0.30);
+        }
+
+        .cta-button:active {
+            transform: scale(0.97); /* Tactile physical press interaction */
+        }
+
+        .waitlist-form {
+            grid-area: inner;
+            width: 100%;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
+        }
+
+        .waitlist-form.is-hidden {
+            opacity: 0;
+            transform: scale(0.96) translateY(4px);
+            visibility: hidden;
+        }
+
+        .success-message {
+            grid-area: inner;
+            align-self: center; /* Keeps it a perfect pill shape vertically */
+            background: rgba(46, 182, 125, 0.08); /* Apple-like translucent green tint */
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: 
+                0 1px 0 0 rgba(255,255,255,0.80) inset,
+                0 0 0 0.5px rgba(46, 182, 125, 0.2), /* Subtle green outline */
+                0 8px 32px rgba(46, 182, 125, 0.12); /* Green ambient glow */
+            border: 1px solid rgba(46, 182, 125, 0.3);
+            border-left: 4px solid var(--flowy-green);
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--ink-900);
+            
+            /* Initial Animation State */
+            opacity: 0;
+            transform: scale(0.96) translateY(-4px);
+            visibility: hidden;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
+            z-index: 10;
+        }
+
+        .success-message.is-visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            visibility: visible;
+        }
+
+        /* SPECIFIC SECTIONS */
+        .hero {
+            padding-top: 160px;
+            padding-bottom: 100px;
+        }
+
+        .hero .headline { margin-bottom: 20px; }
+        .hero .sub-headline { margin-bottom: 36px; }
+
+        .problem-text {
+            max-width: 680px;
+            margin: 0 auto;
+            font-size: 19px;
+            font-weight: 400;
+            color: var(--ink-500);
+            line-height: 1.7;
+        }
+
+        /* Target the bolded keywords inside the problem text specifically */
+        .problem-text strong {
+            color: var(--ink-900);
+            font-weight: 600;
+        }
+
+        .footer {
+            padding: 60px 0;
+            text-align: center;
+            font-size: 13px;
+            color: var(--ink-300);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .footer .logo {
+            color: var(--ink-300);
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            
+            section { padding-top: 96px; padding-bottom: 96px; }
+            .hero { padding-top: 100px; padding-bottom: 64px; }
+
+            .site-nav { padding: 20px 0; }
+            .site-nav.is-sticky { padding: 16px 0; }
+            .nav-link { display: none; } /* Hide link on mobile */
+
+            .headline { font-size: 34px; letter-spacing: -1.5px; }
+            .sub-headline { font-size: 17px; }
+            .tagline { font-size: 30px; letter-spacing: -1px; }
+            .tagline-sub { font-size: 15px; }
+            .problem-text { font-size: 17px; }
+            .card-title { font-size: 17px; }
+            .card-body { font-size: 14px; }
+
+            .cards-3 {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .mockup-card {
+                margin: 24px auto;
+            }
+            
+            .cta-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-ambient"></div>
+
+    <nav class="site-nav" id="site-nav">
+        <div class="container nav-inner">
+            <a href="#" class="logo">🦊 Flowy</a>
+            <a href="#join-bottom" class="nav-link">Join the waitlist</a>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HERO -->
+    <section class="hero text-center">
+        <div class="container">
+            <h1 class="headline">For people who've deleted every focus app they've ever tried.</h1>
+            <p class="sub-headline">What if the next one didn't block you — but made you a deal instead?</p>
+            
+            <div class="form-group">
+                <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
+                    <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
+                        <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" required>
+                        <button type="submit" class="cta-button">Join the waitlist</button>
+                    </div>
+                </form>
+                <div class="success-message">You're on the list. We'll email you when Flowy is ready. 🦊</div>
+            </div>
+            <p class="small-text">Free. iOS only. Launching 2026.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE PROBLEM -->
+    <section class="problem">
+        <div class="container text-center">
+            <div class="eyebrow">Sound familiar?</div>
+            <p class="problem-text">You've tried the <strong>blockers</strong>. The <strong>timers</strong>. The apps that <strong>shame</strong> you with screen time reports. You <strong>deleted all of them</strong> — not because you lack discipline, but because they had <strong>no answer for the moment the urge actually hits</strong>. They blocked. You dismissed. Nothing changed.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 3: HOW IT WORKS -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="eyebrow">How it works</div>
+            <div class="cards-3">
+                <div class="card">
+                    <div class="step-num c-01">01</div>
+                    <h3 class="card-title">You reach for the scroll.</h3>
+                    <p class="card-body">Out of habit. Not because you want to. Flowy catches the moment before the drift starts.</p>
+                </div>
+                
+                <div class="glass glass-l1 mockup-card">
+                    <div class="mockup-emoji">🦊</div>
+                    <div class="mockup-heading">The scroll can wait.</div>
+                    <div class="mockup-subtext">Here's a trade instead.</div>
+                    <div class="mockup-inner-card">
+                        <div class="mockup-label">YOUR TRADE</div>
+                        <div class="mockup-task">Draft the Q3 marketing plan intro</div>
+                        <div class="mockup-row">
+                            <div class="mockup-detail">10 min · +40 Glints</div>
+                            <div class="mockup-source">Your list</div>
+                        </div>
+                    </div>
+                    <div class="mockup-btn-primary">Deal — start the trade</div>
+                    <div class="mockup-btn-secondary">Not now</div>
+                </div>
+                
+                <div class="card">
+                    <div class="step-num c-03">03</div>
+                    <h3 class="card-title">You accidentally got things done.</h3>
+                    <p class="card-body">At 6 PM you look at your phone. 4 trades accepted. A draft written. A plan outlined. The day went the way you planned.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: TAGLINE & CTA -->
+    <section class="tagline-section text-center" id="join-bottom" style="position: relative;">
+        <div class="tagline-ambient"></div>
+        <div class="container">
+            <h2 class="tagline">The day you meant to have.</h2>
+            <p class="tagline-sub">Not a blocker. A trade.<br>Do the work — then own the day.</p>
+            
+            <div class="form-group">
+                <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
+                    <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
+                        <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" required>
+                        <button type="submit" class="cta-button">Join the waitlist</button>
+                    </div>
+                </form>
+                <div class="success-message">You're on the list. We'll email you when Flowy is ready. 🦊</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">🦊 Flowy</div>
+            <div>© 2026 Flowy</div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // STICKY NAV OBSERVER
+            const nav = document.getElementById('site-nav');
+            
+            const handleScroll = () => {
+                if (window.scrollY > 100) {
+                    nav.classList.add('is-sticky');
+                } else {
+                    nav.classList.remove('is-sticky');
+                }
+            };
+
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            handleScroll(); // Init state
+
+            // CINEMATIC SMOOTH SCROLL FOR ANCHOR LINKS
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const target = document.querySelector(targetId);
+                    if (!target) return;
+
+                    // Account for the sticky header height so it doesn't overlap the content
+                    const headerOffset = 80; 
+                    const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+                    const startPosition = window.scrollY;
+                    const distance = targetPosition - startPosition;
+                    const duration = 1200; // 1.2 seconds for a luxurious sweep
+                    let start = null;
+
+                    // Apple-style easing curve (Ease-In-Out Quart)
+                    function easeInOutQuart(t) {
+                        return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
+                    }
+
+                    function step(timestamp) {
+                        if (!start) start = timestamp;
+                        const progress = Math.min((timestamp - start) / duration, 1);
+                        
+                        window.scrollTo(0, startPosition + distance * easeInOutQuart(progress));
+                        
+                        if (progress < 1) {
+                            window.requestAnimationFrame(step);
+                        }
+                    }
+
+                    window.requestAnimationFrame(step);
+                });
+            });
+
+            // FORM SUBMISSION HANDLING
+            const forms = document.querySelectorAll('.waitlist-form');
+            
+            forms.forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const input = form.querySelector('.email-input');
+                    
+                    if (input.value && input.checkValidity()) {
+                        // Create phantom fetch to Google Forms endpoint (ignores CORS for simple post)
+                        fetch(form.action, {
+                            method: 'POST',
+                            body: new FormData(form),
+                            mode: 'no-cors'
+                        }).catch(err => console.log('Silently ignoring fetch error for demo'));
+
+                        // Cinematic Transition UI for ALL forms simultaneously
+                        document.querySelectorAll('.form-group').forEach(group => {
+                            const groupForm = group.querySelector('.waitlist-form');
+                            const groupSuccess = group.querySelector('.success-message');
+                            
+                            if (groupForm && groupSuccess) {
+                                groupForm.classList.add('is-hidden');
+                                groupSuccess.classList.add('is-visible');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
