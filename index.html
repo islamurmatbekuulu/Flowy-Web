@@ -14,7 +14,6 @@
     <meta name="twitter:description" content="Flowy doesn't block your apps. It offers you a trade.">
     <meta name="theme-color" content="#F4F5F7">
     
-    <!-- Flowy Fox Emoji Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦊</text></svg>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,8 +30,8 @@
             --flowy-green: #2EB67D;
             --ink-900: #0D0D0D;
             --ink-700: #3A3A3C;
-            --ink-500: #8E8E93;
-            --ink-300: #A1A1A6; /* Darkened from #C7C7CC for better accessibility/contrast */
+            --ink-500: #5F5F64; 
+            --ink-300: #7A7A80; 
             --page-bg: #F4F5F7;
             --white: #FFFFFF;
         }
@@ -77,6 +76,15 @@
             z-index: 0;
         }
 
+        /* SEAMLESS DIVIDER */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.06) 50%, transparent 100%);
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
         /* TYPOGRAPHY */
         .headline {
             font-size: 52px;
@@ -112,6 +120,7 @@
             letter-spacing: -0.4px;
             line-height: 1.3;
             margin-bottom: 8px;
+            text-wrap: balance;
         }
 
         .card-body {
@@ -120,6 +129,12 @@
             color: var(--ink-500);
             letter-spacing: 0;
             line-height: 1.7;
+            text-wrap: pretty;
+        }
+
+        .card-body strong {
+            color: var(--ink-900);
+            font-weight: 600;
         }
 
         .tagline {
@@ -158,8 +173,9 @@
         }
 
         section {
-            padding-top: 140px;
-            padding-bottom: 140px;
+            padding-top: 120px;
+            padding-bottom: 120px;
+            position: relative;
         }
 
         .text-center {
@@ -240,6 +256,59 @@
             z-index: 1;
         }
 
+        /* LIVE WAITLIST STAT */
+        .live-stat {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--flowy-green);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pulse-dot::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background-color: var(--flowy-green);
+            opacity: 0.4;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.5); opacity: 0.8; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .stat-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink-700);
+        }
+
+        .stat-text strong {
+            color: var(--ink-900);
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .stat-text strong.just-updated {
+            color: var(--flowy-green);
+        }
+
         /* LEVEL 1 GLASS (Cards) */
         .glass-l1 {
             background: rgba(255, 255, 255, 0.55);
@@ -272,21 +341,40 @@
 
         .cards-3 {
             display: grid;
-            grid-template-columns: 1fr 1.2fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 32px;
         }
 
         .cards-3 .card {
-            align-self: center;
+            align-self: stretch;
+        }
+
+        /* STAGGERED LIST (For Why It Works) */
+        .staggered-list {
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .staggered-item {
+            width: 75%;
+        }
+
+        .staggered-item:nth-child(odd) {
+            align-self: flex-start;
+        }
+
+        .staggered-item:nth-child(even) {
+            align-self: flex-end;
         }
 
         /* UI MOCKUP STYLING */
         .mockup-card {
             max-width: 280px;
             width: 100%;
-            margin: 0 auto;
             padding: 24px;
-            align-self: center;
             display: flex;
             flex-direction: column;
         }
@@ -358,7 +446,6 @@
             font-size: 10px;
             font-weight: 600;
             color: var(--flowy-amber);
-            /* Removed uppercase and letter-spacing to prevent wrapping and keep it clean */
         }
 
         .mockup-btn-primary {
@@ -373,7 +460,7 @@
             border-radius: 12px;
             margin-top: 16px;
             border: none;
-            box-shadow: none; /* explicitly removing any gradient/sheen artifacts */
+            box-shadow: none;
         }
 
         .mockup-btn-secondary {
@@ -394,7 +481,6 @@
             display: grid;
             grid-template-areas: "inner";
             max-width: 440px;
-            margin: 0 auto;
             position: relative;
         }
 
@@ -412,7 +498,7 @@
             transition: border 0.15s, box-shadow 0.15s;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); /* Recessed inner shadow */
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
             width: 100%;
         }
 
@@ -447,7 +533,7 @@
         }
 
         .cta-button:active {
-            transform: scale(0.97); /* Tactile physical press interaction */
+            transform: scale(0.97);
         }
 
         .waitlist-form {
@@ -464,16 +550,15 @@
 
         .success-message {
             grid-area: inner;
-            align-self: center; /* Keeps it a perfect pill shape vertically */
-            background: rgba(46, 182, 125, 0.08); /* Apple-like translucent green tint */
+            align-self: center;
+            background: rgba(46, 182, 125, 0.08);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             box-shadow: 
                 0 1px 0 0 rgba(255,255,255,0.80) inset,
-                0 0 0 0.5px rgba(46, 182, 125, 0.2), /* Subtle green outline */
-                0 8px 32px rgba(46, 182, 125, 0.12); /* Green ambient glow */
+                0 0 0 0.5px rgba(46, 182, 125, 0.2),
+                0 8px 32px rgba(46, 182, 125, 0.12);
             border: 1px solid rgba(46, 182, 125, 0.3);
-            border-left: 4px solid var(--flowy-green);
             border-radius: 12px;
             padding: 15px 20px;
             display: flex;
@@ -484,7 +569,6 @@
             font-weight: 500;
             color: var(--ink-900);
             
-            /* Initial Animation State */
             opacity: 0;
             transform: scale(0.96) translateY(-4px);
             visibility: hidden;
@@ -500,26 +584,86 @@
 
         /* SPECIFIC SECTIONS */
         .hero {
-            padding-top: 160px;
+            padding-top: 100px; 
             padding-bottom: 100px;
         }
 
-        .hero .headline { margin-bottom: 20px; }
-        .hero .sub-headline { margin-bottom: 36px; }
+        .hero-container {
+            display: grid;
+            grid-template-columns: 52% 42%;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+        }
 
-        .problem-text {
+        .hero-text-top {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .hero-form-wrapper {
+            grid-column: 1;
+            grid-row: 2;
+            margin-top: 36px;
+        }
+
+        .hero-mockup {
+            grid-column: 2;
+            grid-row: 1 / span 2;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .hero-mockup .mockup-card {
+            transform: rotate(2.5deg);
+            margin: 0;
+        }
+
+        .hero-form-group {
+            margin: 0; 
+        }
+
+        .hero .headline { margin-bottom: 24px; }
+        .hero .sub-headline { margin-bottom: 0; }
+
+        .problem-text-wrapper {
+            border-left: 3px solid rgba(10, 100, 188, 0.15);
+            padding-left: 24px;
             max-width: 680px;
             margin: 0 auto;
+            text-align: left;
+        }
+
+        .problem-text {
             font-size: 19px;
             font-weight: 400;
             color: var(--ink-500);
             line-height: 1.7;
         }
 
-        /* Target the bolded keywords inside the problem text specifically */
         .problem-text strong {
             color: var(--ink-900);
             font-weight: 600;
+        }
+
+        .founder-text-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .founder-text {
+            font-size: 17px;
+            color: var(--ink-500);
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .founder-signature {
+            font-size: 14px;
+            color: var(--ink-300);
+            text-align: right;
         }
 
         .footer {
@@ -529,7 +673,7 @@
             color: var(--ink-300);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
             align-items: center;
         }
 
@@ -538,16 +682,62 @@
             font-weight: 600;
         }
 
+        .footer-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer-links a {
+            color: var(--ink-300);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .footer-links a:hover {
+            color: var(--flow-blue);
+        }
+
         /* RESPONSIVE DESIGN */
         @media (max-width: 768px) {
             .container { padding: 0 24px; }
             
-            section { padding-top: 96px; padding-bottom: 96px; }
-            .hero { padding-top: 100px; padding-bottom: 64px; }
-
+            section { padding-top: 80px; padding-bottom: 80px; }
+            
             .site-nav { padding: 20px 0; }
             .site-nav.is-sticky { padding: 16px 0; }
-            .nav-link { display: none; } /* Hide link on mobile */
+            .nav-link { display: none; }
+
+            .hero { padding-top: 64px; padding-bottom: 64px; }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 0;
+            }
+
+            .hero-text-top { grid-column: 1; grid-row: 1; }
+            
+            .hero-mockup { 
+                grid-column: 1; 
+                grid-row: 2; 
+                justify-content: center; 
+                margin: 40px 0; 
+            }
+            
+            .hero-form-wrapper { 
+                grid-column: 1; 
+                grid-row: 3; 
+                margin-top: 0; 
+            }
+            
+            .hero-mockup .mockup-card { 
+                transform: rotate(0); 
+                margin: 0 auto; 
+            }
+            
+            .hero-form-group { margin: 0 auto; }
 
             .headline { font-size: 34px; letter-spacing: -1.5px; }
             .sub-headline { font-size: 17px; }
@@ -556,19 +746,34 @@
             .problem-text { font-size: 17px; }
             .card-title { font-size: 17px; }
             .card-body { font-size: 14px; }
+            .founder-text { font-size: 15px; }
+
+            .problem-text-wrapper {
+                padding-left: 16px;
+                border-left-width: 2px;
+            }
 
             .cards-3 {
                 grid-template-columns: 1fr;
                 gap: 32px;
             }
 
-            .mockup-card {
-                margin: 24px auto;
+            .staggered-list {
+                gap: 32px;
             }
-            
-            .cta-button {
+
+            .staggered-item {
                 width: 100%;
+                align-self: stretch !important;
             }
+
+            .cta-button { width: 100%; }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .footer-links .dot-separator { display: none; }
         }
     </style>
 </head>
@@ -583,44 +788,14 @@
         </div>
     </nav>
 
-    <!-- SECTION 1: HERO -->
-    <section class="hero text-center">
-        <div class="container">
-            <h1 class="headline">For people who've deleted every focus app they've ever tried.</h1>
-            <p class="sub-headline">What if the next one didn't block you — but made you a deal instead?</p>
-            
-            <div class="form-group">
-                <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
-                    <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
-                        <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" required>
-                        <button type="submit" class="cta-button">Join the waitlist</button>
-                    </div>
-                </form>
-                <div class="success-message">You're on the list. We'll email you when Flowy is ready. 🦊</div>
+    <section class="hero z-1">
+        <div class="container hero-container">
+            <div class="hero-text-top">
+                <h1 class="headline">For people who've deleted every focus app they've ever tried.</h1>
+                <p class="sub-headline">When you reach for the scroll, Flowy steps in with a <span style="color: var(--flowy-amber); font-weight: 600;">deal</span> — do one task, then the app is yours.</p>
             </div>
-            <p class="small-text">Free. iOS only. Launching 2026.</p>
-        </div>
-    </section>
-
-    <!-- SECTION 2: THE PROBLEM -->
-    <section class="problem">
-        <div class="container text-center">
-            <div class="eyebrow">Sound familiar?</div>
-            <p class="problem-text">You've tried the <strong>blockers</strong>. The <strong>timers</strong>. The apps that <strong>shame</strong> you with screen time reports. You <strong>deleted all of them</strong> — not because you lack discipline, but because they had <strong>no answer for the moment the urge actually hits</strong>. They blocked. You dismissed. Nothing changed.</p>
-        </div>
-    </section>
-
-    <!-- SECTION 3: HOW IT WORKS -->
-    <section class="how-it-works">
-        <div class="container">
-            <div class="eyebrow">How it works</div>
-            <div class="cards-3">
-                <div class="card">
-                    <div class="step-num c-01">01</div>
-                    <h3 class="card-title">You reach for the scroll.</h3>
-                    <p class="card-body">Out of habit. Not because you want to. Flowy catches the moment before the drift starts.</p>
-                </div>
-                
+            
+            <div class="hero-mockup">
                 <div class="glass glass-l1 mockup-card">
                     <div class="mockup-emoji">🦊</div>
                     <div class="mockup-heading">The scroll can wait.</div>
@@ -636,24 +811,113 @@
                     <div class="mockup-btn-primary">Deal — start the trade</div>
                     <div class="mockup-btn-secondary">Not now</div>
                 </div>
+            </div>
+
+            <div class="hero-form-wrapper">
+                <div class="form-group hero-form-group">
+                    <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
+                        <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
+                            <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" required>
+                            <button type="submit" class="cta-button">Join the waitlist</button>
+                        </div>
+                    </form>
+                    <div class="success-message">You're on the list. We'll email you when Flowy is ready. 🦊</div>
+                </div>
                 
-                <div class="card">
+                <div class="live-stat">
+                    <div class="pulse-dot"></div>
+                    <span class="stat-text"><strong class="waitlist-number-display">...</strong> people on the waitlist</span>
+                </div>
+
+                <p class="small-text" style="color: var(--flow-blue); font-weight: 500; margin-top: 16px;">Early access for the first 500 signups.</p>
+                <p class="small-text" style="margin-top: 8px;">Free forever for early users. iOS first — launching 2026.</p>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+
+    <section id="sound-familiar" class="problem z-2">
+        <div class="container text-center">
+            <div class="eyebrow">Sound familiar?</div>
+            <div class="problem-text-wrapper">
+                <p class="problem-text">You've tried the <strong>blockers</strong>. The <strong>timers</strong>. The apps that <strong>shame</strong> you with screen time reports. You <strong>deleted all of them</strong> — not because you lack discipline, but because they had <strong>no answer for the moment the urge actually hits</strong>. They blocked. You dismissed. Nothing changed.</p>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+
+    <section id="how-it-works" class="how-it-works z-3">
+        <div class="container">
+            <div class="eyebrow">How it works</div>
+            <div class="cards-3">
+                <div class="card glass glass-l1">
+                    <div class="step-num c-01">01</div>
+                    <h3 class="card-title">You <span style="color: var(--flow-blue);">reach</span> for the scroll.</h3>
+                    <p class="card-body">Out of habit. Not because you want to. Flowy catches the moment before the drift starts.</p>
+                </div>
+                
+                <div class="card glass glass-l1">
+                    <div class="step-num c-02">02</div>
+                    <h3 class="card-title">Flowy offers a <span style="color: var(--flowy-amber);">deal</span>.</h3>
+                    <p class="card-body">10 minutes on one real task — something you actually wanted to do today. You tell Flowy what you're working on. It handles the rest.</p>
+                </div>
+                
+                <div class="card glass glass-l1">
                     <div class="step-num c-03">03</div>
-                    <h3 class="card-title">You accidentally got things done.</h3>
+                    <h3 class="card-title">You accidentally <span style="color: var(--flowy-green); opacity: 0.85;">got things done</span>.</h3>
                     <p class="card-body">At 6 PM you look at your phone. 4 trades accepted. A draft written. A plan outlined. The day went the way you planned.</p>
                 </div>
             </div>
         </div>
     </section>
+    
+    <div class="section-divider"></div>
 
-    <!-- SECTION 4: TAGLINE & CTA -->
-    <section class="tagline-section text-center" id="join-bottom" style="position: relative;">
+    <section id="why-it-works" class="why-it-works z-4">
+        <div class="container">
+            <div class="eyebrow">Why it works</div>
+            <div class="staggered-list">
+                <div class="card glass glass-l1 staggered-item">
+                    <h3 class="card-title">A trade, not a block.</h3>
+                    <p class="card-body">When you reach for the scroll, Flowy doesn't say no. It offers something better — a real task you actually wanted to do. 10 minutes later, it's done.</p>
+                </div>
+                
+                <div class="card glass glass-l1 staggered-item">
+                    <h3 class="card-title">Backed by research.</h3>
+                    <p class="card-body">A 2023 study found that friction combined with a substitute behavior <strong>reduced app openings by 57%</strong>. That's the trade mechanic — <strong>not just blocking, but replacing</strong>.</p>
+                </div>
+                
+                <div class="card glass glass-l1 staggered-item">
+                    <h3 class="card-title">You're always in control.</h3>
+                    <p class="card-body">Accept the trade, skip it, or take a break. Flowy never locks you in. No guilt. No punishment. Always your choice.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+
+    <section id="behind-flowy" class="behind-flowy z-5">
+        <div class="container text-center">
+            <div class="eyebrow">Behind Flowy</div>
+            <div class="founder-text-wrapper">
+                <p class="founder-text">We built Flowy because we are the target user. We've deleted every focus app. We've set Screen Time limits and ignored them. We've tried willpower and it didn't work. So we built the thing we actually needed — an app that doesn't judge the impulse, but gives you something better to do with it. We're three people in Istanbul, building this from scratch.</p>
+                <p class="founder-signature">— The Flowy Team</p>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+
+    <section class="tagline-section text-center z-6" id="join-bottom">
         <div class="tagline-ambient"></div>
         <div class="container">
             <h2 class="tagline">The day you meant to have.</h2>
             <p class="tagline-sub">Not a blocker. A trade.<br>Do the work — then own the day.</p>
             
-            <div class="form-group">
+            <div class="form-group" style="margin: 0 auto;">
                 <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
                     <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
                         <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" required>
@@ -662,19 +926,58 @@
                 </form>
                 <div class="success-message">You're on the list. We'll email you when Flowy is ready. 🦊</div>
             </div>
+            
+            <div class="live-stat">
+                <div class="pulse-dot"></div>
+                <span class="stat-text"><strong class="waitlist-number-display">...</strong> people on the waitlist</span>
+            </div>
+
+            <p class="small-text" style="color: var(--flow-blue); font-weight: 500; margin-top: 16px;">Early access for the first 500 signups.</p>
         </div>
     </section>
 
-    <!-- SECTION 5: FOOTER -->
-    <footer class="footer">
+    <footer class="footer z-6 relative">
         <div class="container">
             <div class="logo">🦊 Flowy</div>
-            <div>© 2026 Flowy</div>
+            <div class="footer-links">
+                <a href="mailto:hello@heyflowy.app">Contact</a>
+                <span class="dot-separator">·</span>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div>© 2026 Flowy. Your data stays on your device.</div>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // ==========================================
+            // LIVE WAITLIST COUNTER SETTINGS
+            // ==========================================
+            let actualWaitlistNumber = 16; // Fallback number while loading
+            
+            const countDisplays = document.querySelectorAll('.waitlist-number-display');
+            
+            // The URL you just created
+            const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzuNsePfdKgmaQta0udr6UpLlbTcxNQWh3mnmvkd-nwpyfI3qpjB43ccGKw1KMV0Rin5Q/exec"; 
+
+            // Fetch the live count from Google Sheets immediately on page load
+            if (SHEET_API_URL) {
+                fetch(SHEET_API_URL)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && typeof data.count === 'number') {
+                            actualWaitlistNumber = data.count;
+                            countDisplays.forEach(display => display.textContent = actualWaitlistNumber);
+                        }
+                    })
+                    .catch(err => {
+                        console.log('Could not fetch live count, using fallback.');
+                        countDisplays.forEach(display => display.textContent = actualWaitlistNumber);
+                    });
+            } else {
+                countDisplays.forEach(display => display.textContent = actualWaitlistNumber);
+            }
+
             // STICKY NAV OBSERVER
             const nav = document.getElementById('site-nav');
             
@@ -699,15 +1002,13 @@
                     const target = document.querySelector(targetId);
                     if (!target) return;
 
-                    // Account for the sticky header height so it doesn't overlap the content
                     const headerOffset = 80; 
                     const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerOffset;
                     const startPosition = window.scrollY;
                     const distance = targetPosition - startPosition;
-                    const duration = 1200; // 1.2 seconds for a luxurious sweep
+                    const duration = 1200; 
                     let start = null;
 
-                    // Apple-style easing curve (Ease-In-Out Quart)
                     function easeInOutQuart(t) {
                         return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
                     }
@@ -736,14 +1037,22 @@
                     const input = form.querySelector('.email-input');
                     
                     if (input.value && input.checkValidity()) {
-                        // Create phantom fetch to Google Forms endpoint (ignores CORS for simple post)
+                        // Phantom fetch to Google Forms endpoint
                         fetch(form.action, {
                             method: 'POST',
                             body: new FormData(form),
                             mode: 'no-cors'
                         }).catch(err => console.log('Silently ignoring fetch error for demo'));
 
-                        // Cinematic Transition UI for ALL forms simultaneously
+                        // Increment the live counter visually for the user
+                        actualWaitlistNumber++;
+                        countDisplays.forEach(display => {
+                            display.textContent = actualWaitlistNumber;
+                            display.classList.add('just-updated');
+                            setTimeout(() => display.classList.remove('just-updated'), 1000);
+                        });
+
+                        // Cinematic Transition UI
                         document.querySelectorAll('.form-group').forEach(group => {
                             const groupForm = group.querySelector('.waitlist-form');
                             const groupSuccess = group.querySelector('.success-message');
