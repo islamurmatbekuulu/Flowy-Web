@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth; scroll-padding-top: 80px;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -191,6 +191,7 @@
             z-index: 100;
             padding: 24px 0;
             transition: background 0.2s, backdrop-filter 0.2s, padding 0.2s, box-shadow 0.2s;
+            will-change: padding, background, backdrop-filter;
         }
 
         .nav-inner {
@@ -902,11 +903,23 @@
                 border-radius: 20px;
             }
         }
+        
+        /* Sentinel for Intersection Observer */
+        #nav-sentinel {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            pointer-events: none;
+            visibility: hidden;
+        }
     </style>
 </head>
 <body>
 
     <div class="hero-ambient"></div>
+    <div id="nav-sentinel"></div>
 
     <nav class="site-nav" id="site-nav">
         <div class="container nav-inner">
@@ -944,7 +957,8 @@
                 <div class="form-group hero-form-group">
                     <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
                         <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
-                            <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" required>
+                            <!-- OPTIMIZATION: Added aria-label for accessibility -->
+                            <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" required>
                             <button type="submit" class="cta-button">Join the waitlist</button>
                         </div>
                     </form>
@@ -1047,7 +1061,8 @@
             <div class="form-group" style="margin: 0 auto;">
                 <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
                     <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
-                        <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" required>
+                        <!-- OPTIMIZATION: Added aria-label -->
+                        <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" required>
                         <button type="submit" class="cta-button">Join the waitlist</button>
                     </div>
                 </form>
@@ -1075,13 +1090,13 @@
         </div>
     </footer>
 
-    <!-- PRIVACY POLICY MODAL -->
-    <div class="modal" id="privacy-modal">
+    <!-- OPTIMIZATION: Added proper a11y ARIA tags for dialog structure -->
+    <div class="modal" id="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-overlay" id="modal-overlay"></div>
         <div class="modal-content glass glass-l1">
-            <button class="modal-close" id="modal-close">&times;</button>
+            <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
             <div class="modal-body">
-                <h2>Flowy Privacy Policy</h2>
+                <h2 id="modal-title">Flowy Privacy Policy</h2>
                 <div class="last-updated">LAST UPDATED: MARCH 2026</div>
                 
                 <p>At Flowy, we believe in digital wellness and treating your data with respect. This simple Privacy Policy explains how we handle your information while you are on our waitlist.</p>
@@ -1119,14 +1134,11 @@
             // ==========================================
             // LIVE WAITLIST COUNTER SETTINGS
             // ==========================================
-            let actualWaitlistNumber = 16; // Fallback number while loading
-            
+            let actualWaitlistNumber = 16;
             const countDisplays = document.querySelectorAll('.waitlist-number-display');
-            
-            // The URL you just created
             const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzuNsePfdKgmaQta0udr6UpLlbTcxNQWh3mnmvkd-nwpyfI3qpjB43ccGKw1KMV0Rin5Q/exec"; 
 
-            // Fetch the live count from Google Sheets immediately on page load
+            // Fetch the live count from Google Sheets
             if (SHEET_API_URL) {
                 fetch(SHEET_API_URL)
                     .then(response => response.json())
@@ -1144,80 +1156,54 @@
                 countDisplays.forEach(display => display.textContent = actualWaitlistNumber);
             }
 
-            // STICKY NAV OBSERVER
+            // ==========================================
+            // STICKY NAV OBSERVER (OPTIMIZED)
+            // ==========================================
+            // Replaced scroll listener with a highly performant Intersection Observer
             const nav = document.getElementById('site-nav');
+            const sentinel = document.getElementById('nav-sentinel');
             
-            const handleScroll = () => {
-                if (window.scrollY > 100) {
-                    nav.classList.add('is-sticky');
-                } else {
-                    nav.classList.remove('is-sticky');
-                }
-            };
-
-            window.addEventListener('scroll', handleScroll, { passive: true });
-            handleScroll(); // Init state
-
-            // CINEMATIC SMOOTH SCROLL FOR ANCHOR LINKS
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const target = document.querySelector(targetId);
-                    if (!target) return;
-
-                    const headerOffset = 80; 
-                    const targetPosition = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-                    const startPosition = window.scrollY;
-                    const distance = targetPosition - startPosition;
-                    const duration = 1200; 
-                    let start = null;
-
-                    function easeInOutQuart(t) {
-                        return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
+            if ('IntersectionObserver' in window) {
+                const navObserver = new IntersectionObserver((entries) => {
+                    if (!entries[0].isIntersecting) {
+                        nav.classList.add('is-sticky');
+                    } else {
+                        nav.classList.remove('is-sticky');
                     }
+                }, { threshold: 0 });
+                
+                navObserver.observe(sentinel);
+            }
 
-                    function step(timestamp) {
-                        if (!start) start = timestamp;
-                        const progress = Math.min((timestamp - start) / duration, 1);
-                        
-                        window.scrollTo(0, startPosition + distance * easeInOutQuart(progress));
-                        
-                        if (progress < 1) {
-                            window.requestAnimationFrame(step);
-                        }
-                    }
+            // Note: Smooth scrolling Javascript block was removed.
+            // It is now handled natively by CSS `scroll-behavior: smooth` on the HTML tag.
 
-                    window.requestAnimationFrame(step);
-                });
-            });
-
+            // ==========================================
             // FORM SUBMISSION HANDLING
-            const forms = document.querySelectorAll('.waitlist-form');
-            
-            // 1. Check if user already joined in a previous session
+            // ==========================================
+            // OPTIMIZATION: Cache DOM queries outside the loop
+            const formGroups = document.querySelectorAll('.form-group');
             const hasJoined = localStorage.getItem('flowy_waitlist_joined') === 'true';
 
             if (hasJoined) {
-                // If they already joined, show the success state immediately on page load
-                document.querySelectorAll('.form-group').forEach(group => {
+                formGroups.forEach(group => {
                     const groupForm = group.querySelector('.waitlist-form');
                     const groupSuccess = group.querySelector('.success-message');
                     if (groupForm && groupSuccess) {
                         groupForm.classList.add('is-hidden');
-                        groupSuccess.style.transition = 'none'; // Remove animation for instant load
+                        groupSuccess.style.transition = 'none';
                         groupSuccess.classList.add('is-visible');
                     }
                 });
             }
             
-            forms.forEach(form => {
+            formGroups.forEach(group => {
+                const form = group.querySelector('.waitlist-form');
+                if (!form) return;
+
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
                     
-                    // Prevent double-clicking (Anti-Spam)
                     if (form.dataset.submitting === 'true') return;
                     form.dataset.submitting = 'true';
 
@@ -1228,16 +1214,13 @@
                     if (input.value && input.checkValidity()) {
                         btn.textContent = 'Joining...';
 
-                        // Phantom fetch to Google Forms endpoint
                         fetch(form.action, {
                             method: 'POST',
                             body: new FormData(form),
                             mode: 'no-cors'
                         }).then(() => {
-                            // Remember that this user joined in their browser
                             localStorage.setItem('flowy_waitlist_joined', 'true');
 
-                            // Only increment the live counter if this is their first time joining
                             if (!hasJoined) {
                                 actualWaitlistNumber++;
                                 countDisplays.forEach(display => {
@@ -1247,20 +1230,18 @@
                                 });
                             }
 
-                            // Cinematic Transition UI
-                            document.querySelectorAll('.form-group').forEach(group => {
-                                const groupForm = group.querySelector('.waitlist-form');
-                                const groupSuccess = group.querySelector('.success-message');
+                            formGroups.forEach(g => {
+                                const gForm = g.querySelector('.waitlist-form');
+                                const gSuccess = g.querySelector('.success-message');
                                 
-                                if (groupForm && groupSuccess) {
-                                    groupForm.classList.add('is-hidden');
-                                    groupSuccess.style.transition = ''; // Restore transition just in case
-                                    groupSuccess.classList.add('is-visible');
+                                if (gForm && gSuccess) {
+                                    gForm.classList.add('is-hidden');
+                                    gSuccess.style.transition = ''; 
+                                    gSuccess.classList.add('is-visible');
                                 }
                             });
                         }).catch(err => {
                             console.log('Silently ignoring fetch error for demo');
-                            // Reset if there's an actual network failure
                             form.dataset.submitting = 'false';
                             btn.textContent = originalBtnText;
                         });
@@ -1282,24 +1263,26 @@
                 e.preventDefault();
                 privacyModal.classList.add('is-visible');
                 document.body.classList.add('modal-open');
+                // Accessibility: Set focus inside modal
+                setTimeout(() => modalClose.focus(), 100); 
             };
 
             const closeModal = () => {
                 privacyModal.classList.remove('is-visible');
                 document.body.classList.remove('modal-open');
+                // Accessibility: Return focus to trigger
+                privacyLink.focus();
             };
 
             privacyLink.addEventListener('click', openModal);
             modalClose.addEventListener('click', closeModal);
             modalOverlay.addEventListener('click', closeModal);
 
-            // Close modal on Escape key press
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape' && privacyModal.classList.contains('is-visible')) {
                     closeModal();
                 }
             });
-
         });
     </script>
 </body>
