@@ -885,8 +885,8 @@
                 </div>
                 
                 <div class="card glass glass-l1 staggered-item">
-                    <h3 class="card-title">Backed by research.</h3>
-                    <p class="card-body">A 2023 study found that friction combined with a substitute behavior <strong>reduced app openings by 57%</strong>. That's the trade mechanic — <strong>not just blocking, but replacing</strong>.</p>
+                    <h3 class="card-title">Why the trade works.</h3>
+                    <p class="card-body">Science shows that replacing a habit is <strong>57% more effective</strong> than just trying to block it. That's why Flowy doesn't just say no — <strong>it offers an alternative</strong>.</p>
                 </div>
                 
                 <div class="card glass glass-l1 staggered-item">
@@ -903,7 +903,7 @@
         <div class="container text-center">
             <div class="eyebrow">Behind Flowy</div>
             <div class="founder-text-wrapper">
-                <p class="founder-text">We built Flowy because we are the target user. We've deleted every focus app. We've set Screen Time limits and ignored them. We've tried willpower and it didn't work. So we built the thing we actually needed — an app that doesn't judge the impulse, but gives you something better to do with it. We're three people in Istanbul, building this from scratch.</p>
+                <p class="founder-text">We built Flowy because we are the target user. We've deleted every focus app. We've set Screen Time limits and ignored them. We've tried willpower and it didn't work. So we built the thing we actually needed — an app that doesn't judge the impulse, but gives you something better to do with it. We're three people building this from scratch.</p>
                 <p class="founder-signature">— The Flowy Team</p>
             </div>
         </div>
@@ -1031,37 +1031,75 @@
             // FORM SUBMISSION HANDLING
             const forms = document.querySelectorAll('.waitlist-form');
             
+            // 1. Check if user already joined in a previous session
+            const hasJoined = localStorage.getItem('flowy_waitlist_joined') === 'true';
+
+            if (hasJoined) {
+                // If they already joined, show the success state immediately on page load
+                document.querySelectorAll('.form-group').forEach(group => {
+                    const groupForm = group.querySelector('.waitlist-form');
+                    const groupSuccess = group.querySelector('.success-message');
+                    if (groupForm && groupSuccess) {
+                        groupForm.classList.add('is-hidden');
+                        groupSuccess.style.transition = 'none'; // Remove animation for instant load
+                        groupSuccess.classList.add('is-visible');
+                    }
+                });
+            }
+            
             forms.forEach(form => {
                 form.addEventListener('submit', (e) => {
                     e.preventDefault();
+                    
+                    // Prevent double-clicking (Anti-Spam)
+                    if (form.dataset.submitting === 'true') return;
+                    form.dataset.submitting = 'true';
+
                     const input = form.querySelector('.email-input');
+                    const btn = form.querySelector('.cta-button');
+                    const originalBtnText = btn.textContent;
                     
                     if (input.value && input.checkValidity()) {
+                        btn.textContent = 'Joining...';
+
                         // Phantom fetch to Google Forms endpoint
                         fetch(form.action, {
                             method: 'POST',
                             body: new FormData(form),
                             mode: 'no-cors'
-                        }).catch(err => console.log('Silently ignoring fetch error for demo'));
+                        }).then(() => {
+                            // Remember that this user joined in their browser
+                            localStorage.setItem('flowy_waitlist_joined', 'true');
 
-                        // Increment the live counter visually for the user
-                        actualWaitlistNumber++;
-                        countDisplays.forEach(display => {
-                            display.textContent = actualWaitlistNumber;
-                            display.classList.add('just-updated');
-                            setTimeout(() => display.classList.remove('just-updated'), 1000);
-                        });
-
-                        // Cinematic Transition UI
-                        document.querySelectorAll('.form-group').forEach(group => {
-                            const groupForm = group.querySelector('.waitlist-form');
-                            const groupSuccess = group.querySelector('.success-message');
-                            
-                            if (groupForm && groupSuccess) {
-                                groupForm.classList.add('is-hidden');
-                                groupSuccess.classList.add('is-visible');
+                            // Only increment the live counter if this is their first time joining
+                            if (!hasJoined) {
+                                actualWaitlistNumber++;
+                                countDisplays.forEach(display => {
+                                    display.textContent = actualWaitlistNumber;
+                                    display.classList.add('just-updated');
+                                    setTimeout(() => display.classList.remove('just-updated'), 1000);
+                                });
                             }
+
+                            // Cinematic Transition UI
+                            document.querySelectorAll('.form-group').forEach(group => {
+                                const groupForm = group.querySelector('.waitlist-form');
+                                const groupSuccess = group.querySelector('.success-message');
+                                
+                                if (groupForm && groupSuccess) {
+                                    groupForm.classList.add('is-hidden');
+                                    groupSuccess.style.transition = ''; // Restore transition just in case
+                                    groupSuccess.classList.add('is-visible');
+                                }
+                            });
+                        }).catch(err => {
+                            console.log('Silently ignoring fetch error for demo');
+                            // Reset if there's an actual network failure
+                            form.dataset.submitting = 'false';
+                            btn.textContent = originalBtnText;
                         });
+                    } else {
+                        form.dataset.submitting = 'false';
                     }
                 });
             });
