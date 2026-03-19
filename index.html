@@ -585,14 +585,16 @@
 
         /* SPECIFIC SECTIONS */
         .hero {
-            padding-top: 100px; 
+            padding-top: 60px; 
             padding-bottom: 100px;
         }
 
         .hero-container {
             display: grid;
-            grid-template-columns: 52% 42%;
-            justify-content: space-between;
+            grid-template-columns: minmax(auto, 520px) auto;
+            column-gap: 56px;
+            row-gap: 0;
+            justify-content: center;
             align-items: center;
             text-align: left;
         }
@@ -605,14 +607,26 @@
         .hero-form-wrapper {
             grid-column: 1;
             grid-row: 2;
-            margin-top: 36px;
+            margin-top: 32px;
+        }
+
+        /* New Action Block styling for visual anchoring */
+        .action-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .action-block .live-stat {
+            margin-top: 4px;
         }
 
         .hero-mockup {
             grid-column: 2;
             grid-row: 1 / span 2;
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-start;
         }
 
         .hero-mockup .mockup-card {
@@ -622,6 +636,7 @@
 
         .hero-form-group {
             margin: 0; 
+            width: 100%;
         }
 
         .hero .headline { margin-bottom: 24px; }
@@ -731,6 +746,11 @@
                 grid-column: 1; 
                 grid-row: 3; 
                 margin-top: 0; 
+            }
+
+            .action-block {
+                align-items: center;
+                gap: 16px;
             }
             
             .hero-mockup .mockup-card { 
@@ -924,21 +944,24 @@
     <nav class="site-nav" id="site-nav">
         <div class="container nav-inner">
             <a href="#" class="logo">🦊 Flowy</a>
-            <a href="#join-bottom" class="nav-link">Join the waitlist</a>
+            <a href="#join-bottom" class="nav-link">Get early access</a>
         </div>
     </nav>
 
     <section class="hero z-1">
         <div class="container hero-container">
             <div class="hero-text-top">
-                <h1 class="headline">For people who've deleted every focus app they've ever tried.</h1>
-                <p class="sub-headline">When you reach for the scroll, Flowy steps in with a <span style="color: var(--flowy-amber); font-weight: 600;">deal</span> — do one task, then the app is yours.</p>
+                <div style="display: inline-block; padding: 6px 14px; background: rgba(10, 100, 188, 0.08); border: 1px solid rgba(10, 100, 188, 0.15); border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--flow-blue); margin-bottom: 24px; letter-spacing: -0.2px;">
+                    For people who've deleted every focus app they've ever tried.
+                </div>
+                <h1 class="headline">You open your phone without thinking. Again.</h1>
+                <p class="sub-headline">Not a blocker. <span style="color: var(--flowy-amber); font-weight: 600;">A trade — do one small task first.</span><br>Flowy gives you something you actually meant to do.</p>
             </div>
             
             <div class="hero-mockup">
                 <div class="glass glass-l1 mockup-card">
                     <div class="mockup-emoji">🦊</div>
-                    <div class="mockup-heading">The scroll can wait.</div>
+                    <div class="mockup-heading">Wait a second.</div>
                     <div class="mockup-subtext">Here's a trade instead.</div>
                     <div class="mockup-inner-card">
                         <div class="mockup-label">YOUR TRADE</div>
@@ -954,24 +977,27 @@
             </div>
 
             <div class="hero-form-wrapper">
-                <div class="form-group hero-form-group">
-                    <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
-                        <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
-                            <!-- OPTIMIZATION: Added aria-label for accessibility -->
-                            <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" required>
-                            <button type="submit" class="cta-button">Join the waitlist</button>
-                        </div>
-                    </form>
-                    <div class="success-message">You're on the list. We'll email you when Flowy is ready. 🦊</div>
+                <div class="action-block">
+                    <div class="form-group hero-form-group">
+                        <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
+                            <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
+                                <!-- OPTIMIZATION: Added aria-label for accessibility -->
+                                <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" required>
+                                <button type="submit" class="cta-button">Get early access</button>
+                            </div>
+                        </form>
+                        <div class="success-message">You're on the list. We'll email you when Flowy is ready. 🦊</div>
                 </div>
                 
                 <div class="live-stat">
                     <div class="pulse-dot"></div>
-                    <span class="stat-text"><strong class="waitlist-number-display">...</strong> people on the waitlist</span>
+                    <!-- To reactivate live counter, replace the span below with: <span class="stat-text">Join <strong class="waitlist-number-display">...</strong> people already getting early access</span> -->
+                    <span class="stat-text">Join <strong>early users</strong> getting access</span>
                 </div>
 
-                <p class="small-text" style="color: var(--flow-blue); font-weight: 500; margin-top: 16px;">Early access for the first 100 signups.</p>
-                <p class="small-text" style="margin-top: 8px;">Free forever for early users. iOS first — launching 2026.</p>
+                <p class="small-text" style="color: var(--flow-blue); font-weight: 500;">Early access is rolling out in small batches.</p>
+                <p class="small-text" style="color: var(--ink-500); font-weight: 500;">Built by people who deleted every focus app.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -1063,7 +1089,7 @@
                     <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
                         <!-- OPTIMIZATION: Added aria-label -->
                         <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" required>
-                        <button type="submit" class="cta-button">Join the waitlist</button>
+                        <button type="submit" class="cta-button">Get early access</button>
                     </div>
                 </form>
                 <div class="success-message">You're on the list. We'll email you when Flowy is ready. 🦊</div>
@@ -1071,10 +1097,11 @@
             
             <div class="live-stat">
                 <div class="pulse-dot"></div>
-                <span class="stat-text"><strong class="waitlist-number-display">...</strong> people on the waitlist</span>
+                <!-- To reactivate live counter, replace the span below with: <span class="stat-text">Join <strong class="waitlist-number-display">...</strong> people already getting early access</span> -->
+                <span class="stat-text">Join <strong>early users</strong> getting access</span>
             </div>
 
-            <p class="small-text" style="color: var(--flow-blue); font-weight: 500; margin-top: 16px;">Early access for the first 100 signups.</p>
+            <p class="small-text" style="color: var(--flow-blue); font-weight: 500; margin-top: 16px;">Early access is rolling out in small batches.</p>
         </div>
     </section>
 
