@@ -371,110 +371,39 @@
             align-self: flex-end;
         }
 
-        /* UI MOCKUP STYLING */
-        .mockup-card {
-            max-width: 280px;
+        /* PHONE ANIMATION COMPONENTS */
+        .phone-frame {
+            width: 280px;
+            aspect-ratio: 9 / 19.5;
+            background: #1C1E24;
+            border-radius: 44px;
+            padding: 8px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .phone-screen {
             width: 100%;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
+            height: 100%;
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
         }
-
-        .mockup-emoji {
-            font-size: 24px;
-            text-align: center;
-            margin-bottom: 8px;
-            line-height: 1;
-        }
-
-        .mockup-heading {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--ink-900);
-            text-align: center;
-            margin: 0;
-            line-height: 1.2;
-            letter-spacing: -0.5px;
-        }
-
-        .mockup-subtext {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--ink-500);
-            text-align: center;
-            margin-top: 4px;
-        }
-
-        .mockup-inner-card {
-            background: rgba(232, 131, 10, 0.06);
-            border: 1px solid rgba(232, 131, 10, 0.15);
-            border-radius: 14px;
-            padding: 18px 20px;
-            margin-top: 20px;
-            text-align: left;
-        }
-
-        .mockup-label {
-            font-family: 'DM Mono', monospace;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--ink-300);
-        }
-
-        .mockup-task {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--ink-900);
-            margin-top: 6px;
-            line-height: 1.3;
-        }
-
-        .mockup-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 12px;
-        }
-
-        .mockup-detail {
-            font-family: 'DM Mono', monospace;
-            font-size: 11px;
-            color: var(--ink-500);
-        }
-
-        .mockup-source {
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--flowy-amber);
-        }
-
-        .mockup-btn-primary {
+        
+        .phone-screen img {
+            position: absolute;
+            inset: 0;
             width: 100%;
-            background: var(--flowy-amber);
-            color: var(--white);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            text-align: center;
-            padding: 13px;
-            border-radius: 12px;
-            margin-top: 16px;
-            border: none;
-            box-shadow: none;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
-
-        .mockup-btn-secondary {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            color: var(--ink-300);
-            font-size: 13px;
-            font-weight: 500;
-            text-align: center;
-            padding: 11px;
-            border-radius: 12px;
-            margin-top: 8px;
+        
+        .phone-screen img.active {
+            opacity: 1;
         }
 
         /* FORMS & INPUTS */
@@ -610,7 +539,6 @@
             margin-top: 32px;
         }
 
-        /* New Action Block styling for visual anchoring */
         .action-block {
             display: flex;
             flex-direction: column;
@@ -629,8 +557,8 @@
             justify-content: flex-start;
         }
 
-        .hero-mockup .mockup-card {
-            transform: rotate(2.5deg);
+        .hero-mockup .phone-frame {
+            transform: rotate(2deg);
             margin: 0;
         }
 
@@ -753,8 +681,9 @@
                 gap: 16px;
             }
             
-            .hero-mockup .mockup-card { 
-                transform: rotate(0); 
+            .hero-mockup .phone-frame { 
+                transform: none; 
+                max-width: 240px;
                 margin: 0 auto; 
             }
             
@@ -799,7 +728,7 @@
 
         /* MODAL (PRIVACY POLICY) */
         body.modal-open {
-            overflow: hidden; /* Prevent background scrolling */
+            overflow: hidden;
         }
 
         .modal {
@@ -838,11 +767,11 @@
             border-radius: 24px;
             transform: scale(0.96) translateY(10px);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
         }
         
         .modal-content::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Edge */
+            display: none;
         }
 
         .modal.is-visible .modal-content {
@@ -924,7 +853,6 @@
             }
         }
         
-        /* Sentinel for Intersection Observer */
         #nav-sentinel {
             position: absolute;
             top: 100px;
@@ -959,20 +887,17 @@
             </div>
             
             <div class="hero-mockup">
-                <div class="glass glass-l1 mockup-card">
-                    <div class="mockup-emoji">🦊</div>
-                    <div class="mockup-heading">Wait a second.</div>
-                    <div class="mockup-subtext">Here's a trade instead.</div>
-                    <div class="mockup-inner-card">
-                        <div class="mockup-label">YOUR TRADE</div>
-                        <div class="mockup-task">Draft the Q3 marketing plan intro</div>
-                        <div class="mockup-row">
-                            <div class="mockup-detail">10 min · +40 Glints</div>
-                            <div class="mockup-source">Your list</div>
-                        </div>
+                <!-- NEW ANIMATED PHONE COMPONENT -->
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <img src="Flowy Screen Onboarding.png" alt="Flowy Screen Onboarding" class="active">
+                        <img src="Flowy Screen Choose.png" alt="Flowy Screen Choose" loading="lazy">
+                        <img src="Flowy Wait screen.png" alt="Flowy Wait screen" loading="lazy">
+                        <img src="Flowy Trade screen.png" alt="Flowy Trade screen" loading="lazy">
+                        <img src="Flowy Timer screen.png" alt="Flowy Timer screen" loading="lazy">
+                        <img src="Flowy Trade Complete.png" alt="Flowy Trade Complete" loading="lazy">
+                        <img src="Flowy Screen Summary.png" alt="Flowy Screen Summary" loading="lazy">
                     </div>
-                    <div class="mockup-btn-primary">Deal — start the trade</div>
-                    <div class="mockup-btn-secondary">Not now</div>
                 </div>
             </div>
 
@@ -981,7 +906,6 @@
                     <div class="form-group hero-form-group">
                         <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
                             <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
-                                <!-- OPTIMIZATION: Added aria-label for accessibility -->
                                 <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" required>
                                 <button type="submit" class="cta-button">Get early access</button>
                             </div>
@@ -991,7 +915,6 @@
                 
                 <div class="live-stat">
                     <div class="pulse-dot"></div>
-                    <!-- To reactivate live counter, replace the span below with: <span class="stat-text">Join <strong class="waitlist-number-display">...</strong> people already getting early access</span> -->
                     <span class="stat-text">Join <strong>early users</strong> getting access</span>
                 </div>
 
@@ -1087,7 +1010,6 @@
             <div class="form-group" style="margin: 0 auto;">
                 <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
                     <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
-                        <!-- OPTIMIZATION: Added aria-label -->
                         <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" required>
                         <button type="submit" class="cta-button">Get early access</button>
                     </div>
@@ -1097,7 +1019,6 @@
             
             <div class="live-stat">
                 <div class="pulse-dot"></div>
-                <!-- To reactivate live counter, replace the span below with: <span class="stat-text">Join <strong class="waitlist-number-display">...</strong> people already getting early access</span> -->
                 <span class="stat-text">Join <strong>early users</strong> getting access</span>
             </div>
 
@@ -1117,7 +1038,6 @@
         </div>
     </footer>
 
-    <!-- OPTIMIZATION: Added proper a11y ARIA tags for dialog structure -->
     <div class="modal" id="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-overlay" id="modal-overlay"></div>
         <div class="modal-content glass glass-l1">
@@ -1159,14 +1079,41 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // ==========================================
+            // PHONE SCREEN ANIMATION
+            // ==========================================
+            const screens = document.querySelectorAll('.phone-screen img');
+            if (screens.length > 0) {
+                const durations = [3000, 1500, 2500, 3500, 2000, 3000, 4000];
+                let current = 0;
+                
+                function showScreen(index) {
+                    screens.forEach(s => s.classList.remove('active'));
+                    screens[index].classList.add('active');
+                }
+                
+                function cycle() {
+                    showScreen(current);
+                    setTimeout(() => {
+                        current = (current + 1) % screens.length;
+                        cycle();
+                    }, durations[current]);
+                }
+                
+                showScreen(0);
+                setTimeout(() => {
+                    current = 1;
+                    cycle();
+                }, durations[0]);
+            }
+
+            // ==========================================
             // LIVE WAITLIST COUNTER SETTINGS
             // ==========================================
             let actualWaitlistNumber = 16;
             const countDisplays = document.querySelectorAll('.waitlist-number-display');
             const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzuNsePfdKgmaQta0udr6UpLlbTcxNQWh3mnmvkd-nwpyfI3qpjB43ccGKw1KMV0Rin5Q/exec"; 
 
-            // Fetch the live count from Google Sheets
-            if (SHEET_API_URL) {
+            if (SHEET_API_URL && countDisplays.length > 0) {
                 fetch(SHEET_API_URL)
                     .then(response => response.json())
                     .then(data => {
@@ -1179,14 +1126,13 @@
                         console.log('Could not fetch live count, using fallback.');
                         countDisplays.forEach(display => display.textContent = actualWaitlistNumber);
                     });
-            } else {
+            } else if (countDisplays.length > 0) {
                 countDisplays.forEach(display => display.textContent = actualWaitlistNumber);
             }
 
             // ==========================================
-            // STICKY NAV OBSERVER (OPTIMIZED)
+            // STICKY NAV OBSERVER 
             // ==========================================
-            // Replaced scroll listener with a highly performant Intersection Observer
             const nav = document.getElementById('site-nav');
             const sentinel = document.getElementById('nav-sentinel');
             
@@ -1202,13 +1148,9 @@
                 navObserver.observe(sentinel);
             }
 
-            // Note: Smooth scrolling Javascript block was removed.
-            // It is now handled natively by CSS `scroll-behavior: smooth` on the HTML tag.
-
             // ==========================================
             // FORM SUBMISSION HANDLING
             // ==========================================
-            // OPTIMIZATION: Cache DOM queries outside the loop
             const formGroups = document.querySelectorAll('.form-group');
             const hasJoined = localStorage.getItem('flowy_waitlist_joined') === 'true';
 
@@ -1290,14 +1232,12 @@
                 e.preventDefault();
                 privacyModal.classList.add('is-visible');
                 document.body.classList.add('modal-open');
-                // Accessibility: Set focus inside modal
                 setTimeout(() => modalClose.focus(), 100); 
             };
 
             const closeModal = () => {
                 privacyModal.classList.remove('is-visible');
                 document.body.classList.remove('modal-open');
-                // Accessibility: Return focus to trigger
                 privacyLink.focus();
             };
 
