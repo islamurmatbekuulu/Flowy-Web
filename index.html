@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" style="scroll-behavior: smooth; scroll-padding-top: 80px;">
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flowy — The day you meant to have</title>
+    <title>Flowy | The day you meant to have</title>
     <meta name="description" content="Flowy intercepts reflexive phone use and offers a trade instead of a block. Do the work, earn the scroll. Join the waitlist.">
     <meta property="og:title" content="For people who've deleted every focus app they've ever tried.">
     <meta property="og:description" content="Flowy doesn't block your apps. It offers you a trade. Join the waitlist.">
@@ -13,1072 +13,235 @@
     <meta name="twitter:title" content="For people who've deleted every focus app they've ever tried.">
     <meta name="twitter:description" content="Flowy doesn't block your apps. It offers you a trade.">
     <meta name="theme-color" content="#F4F5F7">
-    
-    <link rel="icon" type="image/png" href="logo_web.png">
-    <link rel="apple-touch-icon" href="logo_web.png">
 
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-flowy-48.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-flowy-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-flowy.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        /* CSS RESET & VARIABLES */
-        :root {
-            --flow-blue: #0A64BC;
-            --blue-light: #1A7FE0;
-            --blue-pale: #EBF3FC;
-            --flowy-amber: #E8830A;
-            --flowy-green: #2EB67D;
-            --ink-900: #0D0D0D;
-            --ink-700: #3A3A3C;
-            --ink-500: #5F5F64; 
-            --ink-300: #7A7A80; 
-            --page-bg: #F4F5F7;
-            --white: #FFFFFF;
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--page-bg);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: var(--ink-900);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* AMBIENT LIGHTING */
-        .hero-ambient {
-            position: absolute;
-            top: -20%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 140%;
-            height: 70%;
-            background: radial-gradient(ellipse at 50% 40%, rgba(10,100,188,0.07) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .tagline-ambient {
-            position: absolute;
-            bottom: -10%;
-            right: -10%;
-            width: 60%;
-            height: 60%;
-            background: radial-gradient(ellipse, rgba(10,100,188,0.04) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* SEAMLESS DIVIDER */
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.06) 50%, transparent 100%);
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        /* TYPOGRAPHY */
-        .headline {
-            font-size: 52px;
-            font-weight: 800;
-            color: var(--ink-900);
-            letter-spacing: -2.5px;
-            line-height: 1.08;
-        }
-
-        .sub-headline {
-            font-size: 19px;
-            font-weight: 400;
-            color: var(--ink-500);
-            letter-spacing: -0.2px;
-            line-height: 1.7;
-        }
-
-        .eyebrow {
-            font-family: 'DM Mono', monospace;
-            font-size: 11px;
-            font-weight: 400;
-            color: var(--ink-300);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--ink-900);
-            letter-spacing: -0.4px;
-            line-height: 1.3;
-            margin-bottom: 8px;
-            text-wrap: balance;
-        }
-
-        .card-body {
-            font-size: 15px;
-            font-weight: 400;
-            color: var(--ink-500);
-            letter-spacing: 0;
-            line-height: 1.7;
-            text-wrap: pretty;
-        }
-
-        .card-body strong {
-            color: var(--ink-900);
-            font-weight: 600;
-        }
-
-        .tagline {
-            font-size: 44px;
-            font-weight: 800;
-            color: var(--ink-900);
-            letter-spacing: -2px;
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
-
-        .tagline-sub {
-            font-size: 17px;
-            font-weight: 400;
-            color: var(--ink-500);
-            letter-spacing: 0;
-            line-height: 1.7;
-            margin-bottom: 36px;
-        }
-
-        .small-text {
-            font-size: 13px;
-            font-weight: 400;
-            color: var(--ink-300);
-            line-height: 1.5;
-            margin-top: 14px;
-        }
-
-        /* LAYOUT */
-        .container {
-            max-width: 920px;
-            margin: 0 auto;
-            padding: 0 48px;
-            position: relative;
-            z-index: 2;
-        }
-
-        section {
-            padding-top: 120px;
-            padding-bottom: 120px;
-            position: relative;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        /* NAVIGATION */
-        .site-nav {
-            position: sticky;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            padding: 24px 0;
-            transition: background 0.2s, backdrop-filter 0.2s, padding 0.2s, box-shadow 0.2s;
-            will-change: padding, background, backdrop-filter;
-        }
-
-        .nav-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--ink-900);
-            letter-spacing: -0.5px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .logo-img {
-            height: 35px; /* Increased by 25% from 28px */
-            width: auto;
-            margin-right: 10px;
-            border-radius: 4px;
-            transform: translateY(1px);
-        }
-
-        .footer .logo-img {
-            height: 25px; /* Increased by 25% from 20px */
-            filter: grayscale(100%);
-            opacity: 0.6;
-        }
-
-        .nav-link {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--flow-blue);
-            text-decoration: none;
-            transition: color 0.15s;
-        }
-        
-        .nav-link:hover {
-            color: var(--blue-light);
-        }
-
-        /* STICKY NAV STATE (Level 3 Glass) */
-        .site-nav.is-sticky {
-            padding: 16px 0;
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            box-shadow: 0 1px 0 0 rgba(255,255,255,0.80) inset, 0 1px 0 rgba(0,0,0,0.06);
-        }
-
-        /* GLASS MATERIAL BASE */
-        .glass {
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.70);
-            border-radius: 20px;
-        }
-
-        .glass::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                135deg, 
-                rgba(255,255,255,0.50) 0%, 
-                rgba(255,255,255,0.10) 40%, 
-                transparent 60%
-            );
-            pointer-events: none;
-            border-radius: inherit;
-            z-index: 0;
-        }
-
-        .glass > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* LIVE WAITLIST STAT */
-        .live-stat {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 20px;
-            padding: 8px 16px;
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 20px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--flowy-green);
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .pulse-dot::after {
-            content: '';
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            background-color: var(--flowy-green);
-            opacity: 0.4;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.5); opacity: 0.8; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-
-        .stat-text {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--ink-700);
-        }
-
-        .stat-text strong {
-            color: var(--ink-900);
-            font-weight: 700;
-            transition: color 0.3s ease;
-        }
-
-        .stat-text strong.just-updated {
-            color: var(--flowy-green);
-        }
-
-        /* LEVEL 1 GLASS (Cards) */
-        .glass-l1 {
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            box-shadow: 
-                0 1px 0 0 rgba(255,255,255,0.80) inset,
-                0 0 0 0.5px rgba(0,0,0,0.05),
-                0 8px 32px rgba(0,0,0,0.06);
-        }
-
-        /* COMPONENTS */
-        .card {
-            padding: 32px;
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-
-        .step-num {
-            font-family: 'DM Mono', monospace;
-            font-size: 13px;
-            font-weight: 400;
-            margin-bottom: 16px;
-        }
-
-        .step-num.c-01 { color: var(--flow-blue); }
-        .step-num.c-02 { color: var(--flowy-amber); }
-        .step-num.c-03 { color: var(--flowy-green); }
-
-        .cards-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-        }
-
-        .cards-3 .card {
-            align-self: stretch;
-        }
-
-        /* STAGGERED LIST (For Why It Works) */
-        .staggered-list {
-            display: flex;
-            flex-direction: column;
-            gap: 48px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .staggered-item {
-            width: 75%;
-        }
-
-        .staggered-item:nth-child(odd) {
-            align-self: flex-start;
-        }
-
-        .staggered-item:nth-child(even) {
-            align-self: flex-end;
-        }
-
-        /* PHONE ANIMATION COMPONENTS */
-        .phone-frame {
-            width: 280px;
-            aspect-ratio: 9 / 19.5;
-            background: #2C2E34;
-            border-radius: 40px;
-            padding: 5px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .phone-screen {
-            width: 100%;
-            height: 100%;
-            border-radius: 36px;
-            overflow: hidden;
-            position: relative;
-            background: #000;
-        }
-        
-        .phone-screen img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        
-        .phone-screen img.active {
-            opacity: 1;
-        }
-
-        /* FORMS & INPUTS */
-        .form-group {
-            display: grid;
-            grid-template-areas: "inner";
-            max-width: 440px;
-            position: relative;
-        }
-
-        .email-input {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.50);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
-            padding: 15px 20px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 15px;
-            font-weight: 400;
-            color: var(--ink-900);
-            outline: none;
-            transition: border 0.15s, box-shadow 0.15s;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-            width: 100%;
-        }
-
-        .email-input::placeholder {
-            color: var(--ink-300);
-        }
-
-        .email-input:focus {
-            border-color: rgba(10,100,188,0.40);
-            box-shadow: 0 0 0 3px rgba(10,100,188,0.10);
-        }
-
-        .cta-button {
-            flex: none;
-            background: var(--flow-blue);
-            color: var(--white);
-            border: none;
-            border-radius: 12px;
-            padding: 15px 32px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.15s, box-shadow 0.15s, transform 0.1s ease;
-            white-space: nowrap;
-            -webkit-appearance: none;
-        }
-
-        .cta-button:hover {
-            background: var(--blue-light);
-            box-shadow: 0 4px 20px rgba(10,100,188,0.30);
-        }
-
-        .cta-button:active {
-            transform: scale(0.97);
-        }
-
-        .waitlist-form {
-            grid-area: inner;
-            width: 100%;
-            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
-        }
-
-        .waitlist-form.is-hidden {
-            opacity: 0;
-            transform: scale(0.96) translateY(4px);
-            visibility: hidden;
-        }
-
-        .success-message {
-            grid-area: inner;
-            align-self: center;
-            background: rgba(46, 182, 125, 0.08);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            box-shadow: 
-                0 1px 0 0 rgba(255,255,255,0.80) inset,
-                0 0 0 0.5px rgba(46, 182, 125, 0.2),
-                0 8px 32px rgba(46, 182, 125, 0.12);
-            border: 1px solid rgba(46, 182, 125, 0.3);
-            border-radius: 12px;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--ink-900);
-            
-            opacity: 0;
-            transform: scale(0.96) translateY(-4px);
-            visibility: hidden;
-            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
-            z-index: 10;
-        }
-
-        .success-message.is-visible {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            visibility: visible;
-        }
-
-        /* SPECIFIC SECTIONS */
-        .hero {
-            padding-top: 60px; 
-            padding-bottom: 100px;
-        }
-
-        .hero-container {
-            display: grid;
-            grid-template-columns: minmax(auto, 520px) auto;
-            column-gap: 56px;
-            row-gap: 0;
-            justify-content: center;
-            align-items: center;
-            text-align: left;
-        }
-
-        .hero-text-top {
-            grid-column: 1;
-            grid-row: 1;
-        }
-
-        .hero-form-wrapper {
-            grid-column: 1;
-            grid-row: 2;
-            margin-top: 32px;
-        }
-
-        .action-block {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .action-block .live-stat {
-            margin-top: 4px;
-        }
-
-        .hero-mockup {
-            grid-column: 2;
-            grid-row: 1 / span 2;
-            display: flex;
-            justify-content: flex-start;
-        }
-
-        .hero-mockup .phone-frame {
-            margin: 0;
-        }
-
-        .hero-form-group {
-            margin: 0; 
-            width: 100%;
-        }
-
-        .hero .headline { margin-bottom: 24px; }
-        .hero .sub-headline { margin-bottom: 0; }
-
-        .problem-text-wrapper {
-            border-left: 3px solid rgba(10, 100, 188, 0.15);
-            padding-left: 24px;
-            max-width: 680px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .problem-text {
-            font-size: 19px;
-            font-weight: 400;
-            color: var(--ink-500);
-            line-height: 1.7;
-        }
-
-        .problem-text strong {
-            color: var(--ink-900);
-            font-weight: 600;
-        }
-
-        .founder-text-wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .founder-text {
-            font-size: 17px;
-            color: var(--ink-500);
-            font-style: italic;
-            line-height: 1.7;
-            margin-bottom: 16px;
-        }
-
-        .founder-signature {
-            font-size: 14px;
-            color: var(--ink-300);
-            text-align: right;
-        }
-
-        .footer {
-            padding: 60px 0;
-            text-align: center;
-            font-size: 13px;
-            color: var(--ink-300);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .footer .logo {
-            color: var(--ink-300);
-            font-weight: 600;
-        }
-
-        .footer-links {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .footer-links a {
-            color: var(--ink-300);
-            text-decoration: none;
-            transition: color 0.15s;
-        }
-
-        .footer-links a:hover {
-            color: var(--flow-blue);
-        }
-
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 768px) {
-            .container { padding: 0 24px; }
-            
-            section { padding-top: 80px; padding-bottom: 80px; }
-            
-            .site-nav { padding: 20px 0; }
-            .site-nav.is-sticky { padding: 16px 0; }
-            .nav-link { display: none; }
-
-            .hero { padding-top: 64px; padding-bottom: 64px; }
-
-            .hero-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 0;
-            }
-
-            .hero-text-top { grid-column: 1; grid-row: 1; }
-            
-            .hero-mockup { 
-                grid-column: 1; 
-                grid-row: 2; 
-                justify-content: center; 
-                margin: 40px 0; 
-            }
-            
-            .hero-form-wrapper { 
-                grid-column: 1; 
-                grid-row: 3; 
-                margin-top: 0; 
-            }
-
-            .action-block {
-                align-items: center;
-                gap: 16px;
-            }
-            
-            .hero-mockup .phone-frame { 
-                transform: none; 
-                max-width: 240px;
-                margin: 0 auto; 
-            }
-            
-            .hero-form-group { margin: 0 auto; }
-
-            .headline { font-size: 34px; letter-spacing: -1.5px; }
-            .sub-headline { font-size: 17px; }
-            .tagline { font-size: 30px; letter-spacing: -1px; }
-            .tagline-sub { font-size: 15px; }
-            .problem-text { font-size: 17px; }
-            .card-title { font-size: 17px; }
-            .card-body { font-size: 14px; }
-            .founder-text { font-size: 15px; }
-
-            .problem-text-wrapper {
-                padding-left: 16px;
-                border-left-width: 2px;
-            }
-
-            .cards-3 {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
-
-            .staggered-list {
-                gap: 32px;
-            }
-
-            .staggered-item {
-                width: 100%;
-                align-self: stretch !important;
-            }
-
-            .cta-button { width: 100%; }
-
-            .footer-links {
-                flex-direction: column;
-                gap: 8px;
-            }
-            .footer-links .dot-separator { display: none; }
-        }
-
-        /* MODAL (PRIVACY POLICY) */
-        body.modal-open {
-            overflow: hidden;
-        }
-
-        .modal {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
-            padding: 24px;
-        }
-
-        .modal.is-visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .modal-content {
-            position: relative;
-            width: 100%;
-            max-width: 640px;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 48px;
-            border-radius: 24px;
-            transform: scale(0.96) translateY(10px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            scrollbar-width: none;
-        }
-        
-        .modal-content::-webkit-scrollbar {
-            display: none;
-        }
-
-        .modal.is-visible .modal-content {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            width: 32px;
-            height: 32px;
-            border-radius: 16px;
-            background: rgba(0,0,0,0.05);
-            border: none;
-            color: var(--ink-500);
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s;
-            z-index: 2;
-        }
-
-        .modal-close:hover {
-            background: rgba(0,0,0,0.1);
-            color: var(--ink-900);
-        }
-
-        .modal-body h2 {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--ink-900);
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .modal-body .last-updated {
-            font-size: 13px;
-            color: var(--ink-300);
-            margin-bottom: 32px;
-            font-family: 'DM Mono', monospace;
-        }
-
-        .modal-body h3 {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--ink-900);
-            margin: 32px 0 12px 0;
-        }
-
-        .modal-body p, .modal-body li {
-            font-size: 15px;
-            color: var(--ink-500);
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-        
-        .modal-body ul {
-            padding-left: 20px;
-            margin-bottom: 16px;
-        }
-
-        .modal-body strong {
-            color: var(--ink-900);
-            font-weight: 600;
-        }
-
-        .modal-body a {
-            color: var(--flow-blue);
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            .modal-content {
-                padding: 32px 24px;
-                border-radius: 20px;
-            }
-        }
-        
-        #nav-sentinel {
-            position: absolute;
-            top: 100px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            pointer-events: none;
-            visibility: hidden;
-        }
-    </style>
+    <link rel="preload" as="image" href="Flowy%20Screen%20Onboarding.png">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="page-shell">
+        <div class="hero-ambient" aria-hidden="true"></div>
+        <div id="nav-sentinel" aria-hidden="true"></div>
 
-    <div class="hero-ambient"></div>
-    <div id="nav-sentinel"></div>
-
-    <nav class="site-nav" id="site-nav">
-        <div class="container nav-inner">
-            <a href="#" class="logo">
-                <img src="logo_web.png" alt="Flowy" class="logo-img" onerror="this.onerror=null; this.src='https://placehold.co/64x64/0A64BC/FFF?text=F'">
-                Flowy
-            </a>
-            <a href="#join-bottom" class="nav-link">Get early access</a>
-        </div>
-    </nav>
-
-    <section class="hero z-1">
-        <div class="container hero-container">
-            <div class="hero-text-top">
-                <div style="display: inline-block; padding: 6px 14px; background: rgba(10, 100, 188, 0.08); border: 1px solid rgba(10, 100, 188, 0.15); border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--flow-blue); margin-bottom: 24px; letter-spacing: -0.2px;">
-                    For people who've deleted every focus app they've ever tried.
-                </div>
-                <h1 class="headline">You open your phone without thinking. Again.</h1>
-                <p class="sub-headline">Not a blocker. <span style="color: var(--flowy-amber); font-weight: 600;">A trade — do one small task first.</span><br>Flowy gives you something you actually meant to do.</p>
+        <nav class="site-nav" id="site-nav">
+            <div class="container nav-inner">
+                <a href="#top" class="logo" aria-label="Flowy home">
+                    <img
+                        src="logo_web.png"
+                        alt="Flowy"
+                        class="logo-img"
+                        width="1024"
+                        height="1024"
+                        decoding="async"
+                        data-fallback-src="https://placehold.co/64x64/0A64BC/FFF?text=F"
+                    >
+                    Flowy
+                </a>
+                <a href="#join-bottom" class="nav-link">Get early access</a>
             </div>
-            
-            <div class="hero-mockup">
-                <!-- NEW ANIMATED PHONE COMPONENT -->
-                <div class="phone-frame">
-                    <div class="phone-screen">
-                        <img src="Flowy%20Screen%20Onboarding.png" alt="Flowy Screen Onboarding" class="active" fetchpriority="high">
-                        <img src="Flowy%20Screen%20Choose.png" alt="Flowy Screen Choose" loading="lazy">
-                        <img src="Flowy%20Wait%20screen.png" alt="Flowy Wait screen" loading="lazy">
-                        <img src="Flowy%20Trade%20screen.png" alt="Flowy Trade screen" loading="lazy">
-                        <img src="Flowy%20Timer%20screen.png" alt="Flowy Timer screen" loading="lazy">
-                        <img src="Flowy%20Trade%20Complete.png" alt="Flowy Trade Complete" loading="lazy">
-                        <img src="Flowy%20Screen%20Summary.png" alt="Flowy Screen Summary" loading="lazy">
+        </nav>
+
+        <main id="top">
+            <section class="hero z-1">
+                <div class="container hero-container">
+                    <div class="hero-text-top">
+                        <p class="hero-kicker">For people who've deleted every focus app they've ever tried.</p>
+                        <h1 class="headline">You open your phone without thinking. Again.</h1>
+                        <p class="sub-headline">Not a blocker. <span class="text-amber">A trade. Do one small task first.</span><br>Flowy gives you something you actually meant to do.</p>
+                    </div>
+
+                    <div class="hero-mockup" aria-hidden="true">
+                        <div class="phone-frame">
+                            <div class="phone-screen">
+                                <img src="Flowy%20Screen%20Onboarding.png" alt="Flowy Screen Onboarding" class="active" width="804" height="1773" fetchpriority="high" decoding="async" data-duration="3000">
+                                <img src="Flowy%20Screen%20Choose.png" alt="Flowy Screen Choose" width="804" height="1768" loading="lazy" decoding="async" data-duration="1500">
+                                <img src="Flowy%20Wait%20screen.png" alt="Flowy Wait screen" width="936" height="1768" loading="lazy" decoding="async" data-duration="2500">
+                                <img src="Flowy%20Trade%20screen.png" alt="Flowy Trade screen" width="804" height="1773" loading="lazy" decoding="async" data-duration="3500">
+                                <img src="Flowy%20Timer%20screen.png" alt="Flowy Timer screen" width="804" height="1768" loading="lazy" decoding="async" data-duration="2000">
+                                <img src="Flowy%20Trade%20Complete.png" alt="Flowy Trade Complete" width="844" height="1768" loading="lazy" decoding="async" data-duration="3000">
+                                <img src="Flowy%20Screen%20Summary.png" alt="Flowy Screen Summary" width="804" height="1768" loading="lazy" decoding="async" data-duration="4000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-form-wrapper">
+                        <div class="action-block">
+                            <div class="form-group hero-form-group">
+                                <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
+                                    <div class="form-row">
+                                        <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" autocomplete="email" inputmode="email" required>
+                                        <button type="submit" class="cta-button">Get early access</button>
+                                    </div>
+                                </form>
+                                <div class="success-message" role="status" aria-live="polite" aria-atomic="true" aria-hidden="true">
+                                    You're on the list. We'll email you when Flowy is ready.
+                                    <img src="logo_web.png" alt="" class="success-logo" width="1024" height="1024" loading="lazy" decoding="async" data-hide-on-error>
+                                </div>
+                            </div>
+
+                            <div class="live-stat">
+                                <div class="pulse-dot"></div>
+                                <span class="stat-text">Join the waitlist for early access</span>
+                            </div>
+
+                            <p class="small-text small-text-strong small-text-blue">Be first to try it when we launch.</p>
+                            <p class="small-text small-text-strong small-text-ink">Built by people who deleted every focus app.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="hero-form-wrapper">
-                <div class="action-block">
-                    <div class="form-group hero-form-group">
+            <div class="section-divider"></div>
+
+            <section id="sound-familiar" class="problem z-2">
+                <div class="container text-center">
+                    <div class="eyebrow">Sound familiar?</div>
+                    <div class="problem-text-wrapper">
+                        <p class="problem-text">You've tried the blockers. The timers. The screen time reports that just made you feel <strong>worse</strong>. You <strong>deleted all of them</strong> — not because you're undisciplined, but because they all break at the same point. The urge hits, you tap dismiss, you're on Instagram before you've even finished the thought.</p>
+                        <p class="problem-text problem-text-spaced">Nobody's really addicted to their phone. <strong>You're addicted to not having to decide what to do next.</strong> The phone is just the easiest escape from a blank moment. Blockers have no answer for that moment. <strong>Flowy sits in that gap instead.</strong></p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section id="how-it-works" class="how-it-works z-3">
+                <div class="container">
+                    <div class="eyebrow">How it works</div>
+                    <div class="cards-3">
+                        <article class="card glass glass-l1">
+                            <div class="step-num c-01">01</div>
+                            <h3 class="card-title">You <span class="text-blue">reach</span> for the scroll.</h3>
+                            <p class="card-body">Out of habit. Not because you want to. Flowy catches the moment before the drift starts.</p>
+                        </article>
+
+                        <article class="card glass glass-l1">
+                            <div class="step-num c-02">02</div>
+                            <h3 class="card-title">Flowy offers a <span class="text-amber">deal</span>.</h3>
+                            <p class="card-body">Flowy offers a deal. You already told it what you're working on — now it pulls up a task and starts a 10-minute timer. By the time it's done, you forgot why you picked up your phone.</p>
+                        </article>
+
+                        <article class="card glass glass-l1">
+                            <div class="step-num c-03">03</div>
+                            <h3 class="card-title">You accidentally <span class="text-green-soft">got things done</span>.</h3>
+                            <p class="card-body">At 6 PM you look at your phone. 4 trades accepted. A draft written. A plan outlined. The day went the way you planned.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section id="why-it-works" class="why-it-works z-4">
+                <div class="container">
+                    <div class="eyebrow">Why it works</div>
+                    <div class="staggered-list">
+                        <article class="card glass glass-l1 staggered-item">
+                            <h3 class="card-title">A trade, not a block.</h3>
+                            <p class="card-body">When you reach for the scroll, Flowy doesn't say no. It offers something better: a real task you actually wanted to do. 10 minutes later, it's done.</p>
+                        </article>
+
+                        <article class="card glass glass-l1 staggered-item">
+                            <h3 class="card-title">Why the trade works.</h3>
+                            <p class="card-body">A <a href="https://www.pnas.org/doi/10.1073/pnas.2213114120" target="_blank" rel="noopener noreferrer">2023 PNAS study (N=280)</a> found that adding friction at the moment of impulse, not blocking, just friction, reduced app openings by <strong>57%</strong> over six weeks. Blocking alone wore off. The pause didn't.</p>
+                            <p class="card-body">Flowy uses that same window, but fills it. Instead of a blank pause, you get a real task.</p>
+                        </article>
+
+                        <article class="card glass glass-l1 staggered-item">
+                            <h3 class="card-title">You're always in control.</h3>
+                            <p class="card-body">Accept the trade, skip it, or take a break. Flowy never locks you in. No guilt. No punishment. Always your choice.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section id="behind-flowy" class="behind-flowy z-5">
+                <div class="container text-center">
+                    <div class="eyebrow">Behind Flowy</div>
+                    <div class="founder-text-wrapper">
+                        <p class="founder-text">We built Flowy because we're the people who delete focus apps. We've set Screen Time limits we ignored the same day. We tried willpower. Willpower lost.</p>
+                        <p class="founder-text">So we built what we actually wanted — something that doesn't fight the impulse to grab your phone, it just gives you somewhere better to land when you do.</p>
+                        <p class="founder-text">Three people, building from scratch. One of us studied behavioral psych. One runs ops and outreach. One redesigns every screen until it loads in under a second.</p>
+                        <p class="founder-signature">The Flowy Team</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <section class="tagline-section text-center z-6" id="join-bottom">
+                <div class="tagline-ambient" aria-hidden="true"></div>
+                <div class="container">
+                    <h2 class="tagline">The day you meant to have.</h2>
+                    <p class="tagline-sub">Not a blocker. A trade.<br>Do the work, then own the day.</p>
+
+                    <div class="form-group form-group-centered">
                         <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
-                            <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
-                                <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" required>
+                            <div class="form-row">
+                                <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" autocomplete="email" inputmode="email" required>
                                 <button type="submit" class="cta-button">Get early access</button>
                             </div>
                         </form>
-                        <div class="success-message">
-                            You're on the list. We'll email you when Flowy is ready. 
-                            <!-- Increased from 18px to 22.5px (25% increase) -->
-                            <img src="logo_web.png" alt="" style="height: 22.5px; margin-left: 8px;" onerror="this.style.display='none'">
+                        <div class="success-message" role="status" aria-live="polite" aria-atomic="true" aria-hidden="true">
+                            You're on the list. We'll email you when Flowy is ready.
+                            <img src="logo_web.png" alt="" class="success-logo" width="1024" height="1024" loading="lazy" decoding="async" data-hide-on-error>
                         </div>
-                </div>
-                
-                <div class="live-stat">
-                    <div class="pulse-dot"></div>
-                    <span class="stat-text">Join the waitlist for early access</span>
-                </div>
-
-                <p class="small-text" style="color: var(--flow-blue); font-weight: 500;">Be first to try it when we launch.</p>
-                <p class="small-text" style="color: var(--ink-500); font-weight: 500;">Built by people who deleted every focus app.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <div class="section-divider"></div>
-
-    <section id="sound-familiar" class="problem z-2">
-        <div class="container text-center">
-            <div class="eyebrow">Sound familiar?</div>
-            <div class="problem-text-wrapper">
-                <p class="problem-text">You've tried the <strong>blockers</strong>. The <strong>timers</strong>. The apps that <strong>shame</strong> you with screen time reports. You <strong>deleted all of them</strong> — not because you lack discipline, but because they had <strong>no answer for the moment the urge actually hits</strong>. They blocked. You dismissed. Nothing changed.</p>
-                <p class="problem-text" style="margin-top: 24px;">Here's what nobody talks about: you're <strong>not addicted to your phone</strong>. You're <strong>addicted to not having to decide what to do next</strong>. The phone is just the easiest escape from a blank moment. That's the gap every blocker ignores — and the one <strong>Flowy fills</strong>.</p>
-            </div>
-        </div>
-    </section>
-    
-    <div class="section-divider"></div>
-
-    <section id="how-it-works" class="how-it-works z-3">
-        <div class="container">
-            <div class="eyebrow">How it works</div>
-            <div class="cards-3">
-                <div class="card glass glass-l1">
-                    <div class="step-num c-01">01</div>
-                    <h3 class="card-title">You <span style="color: var(--flow-blue);">reach</span> for the scroll.</h3>
-                    <p class="card-body">Out of habit. Not because you want to. Flowy catches the moment before the drift starts.</p>
-                </div>
-                
-                <div class="card glass glass-l1">
-                    <div class="step-num c-02">02</div>
-                    <h3 class="card-title">Flowy offers a <span style="color: var(--flowy-amber);">deal</span>.</h3>
-                    <p class="card-body">10 minutes on one real task — something you actually wanted to do today. You tell Flowy what you're working on. It handles the rest.</p>
-                </div>
-                
-                <div class="card glass glass-l1">
-                    <div class="step-num c-03">03</div>
-                    <h3 class="card-title">You accidentally <span style="color: var(--flowy-green); opacity: 0.85;">got things done</span>.</h3>
-                    <p class="card-body">At 6 PM you look at your phone. 4 trades accepted. A draft written. A plan outlined. The day went the way you planned.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <div class="section-divider"></div>
-
-    <section id="why-it-works" class="why-it-works z-4">
-        <div class="container">
-            <div class="eyebrow">Why it works</div>
-            <div class="staggered-list">
-                <div class="card glass glass-l1 staggered-item">
-                    <h3 class="card-title">A trade, not a block.</h3>
-                    <p class="card-body">When you reach for the scroll, Flowy doesn't say no. It offers something better — a real task you actually wanted to do. 10 minutes later, it's done.</p>
-                </div>
-                
-                <div class="card glass glass-l1 staggered-item">
-                    <h3 class="card-title">Why the trade works.</h3>
-                    <p class="card-body">A 2023 study published in PNAS (N=280) found that combining friction with a substitute behavior reduced app openings by <strong>57%</strong>. <strong>Blocking alone didn't last</strong>. Replacing the habit did. <strong>That's the trade mechanic</strong>.</p>
-                </div>
-                
-                <div class="card glass glass-l1 staggered-item">
-                    <h3 class="card-title">You're always in control.</h3>
-                    <p class="card-body">Accept the trade, skip it, or take a break. Flowy never locks you in. No guilt. No punishment. Always your choice.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <div class="section-divider"></div>
-
-    <section id="behind-flowy" class="behind-flowy z-5">
-        <div class="container text-center">
-            <div class="eyebrow">Behind Flowy</div>
-            <div class="founder-text-wrapper">
-                <p class="founder-text">We built Flowy because we are the target user. We've deleted every focus app. We've set Screen Time limits and ignored them. We've tried willpower and it didn't work. So we built the thing we actually needed — an app that doesn't judge the impulse, but gives you something better to do with it. We're three people building this from scratch. One of us studies behavioral psychology. One runs operations and outreach. One designs every screen until it loads in under a second.</p>
-                <p class="founder-signature">— The Flowy Team</p>
-            </div>
-        </div>
-    </section>
-    
-    <div class="section-divider"></div>
-
-    <section class="tagline-section text-center z-6" id="join-bottom">
-        <div class="tagline-ambient"></div>
-        <div class="container">
-            <h2 class="tagline">The day you meant to have.</h2>
-            <p class="tagline-sub">Not a blocker. A trade.<br>Do the work — then own the day.</p>
-            
-            <div class="form-group" style="margin: 0 auto;">
-                <form class="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSeJDRVu0oTiMU84ua-WReupyDKpaHnjIcuvKrRnDltuSlESgw/formResponse" method="POST">
-                    <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
-                        <input type="email" name="entry.441479986" class="email-input" placeholder="Enter your email" aria-label="Email address" required>
-                        <button type="submit" class="cta-button">Get early access</button>
                     </div>
-                </form>
-                <div class="success-message">
-                    You're on the list. We'll email you when Flowy is ready.
-                    <!-- Increased from 18px to 22.5px (25% increase) -->
-                    <img src="logo_web.png" alt="" style="height: 22.5px; margin-left: 8px;" onerror="this.style.display='none'">
+
+                    <div class="live-stat">
+                        <div class="pulse-dot"></div>
+                        <span class="stat-text">Join the waitlist for early access</span>
+                    </div>
+
+                    <p class="small-text small-text-strong small-text-blue small-text-top">Be first to try it when we launch.</p>
                 </div>
-            </div>
-            
-            <div class="live-stat">
-                <div class="pulse-dot"></div>
-                <span class="stat-text">Join the waitlist for early access</span>
-            </div>
+            </section>
+        </main>
 
-            <p class="small-text" style="color: var(--flow-blue); font-weight: 500; margin-top: 16px;">Be first to try it when we launch.</p>
-        </div>
-    </section>
-
-    <footer class="footer z-6 relative">
-        <div class="container">
-            <div class="logo">
-                <img src="logo_web.png" alt="Flowy Logo" class="logo-img" onerror="this.onerror=null; this.src='https://placehold.co/64x64/7A7A80/FFF?text=F'">
-                Flowy
+        <footer class="footer z-6 relative">
+            <div class="container">
+                <div class="logo">
+                    <img
+                        src="logo_web.png"
+                        alt="Flowy Logo"
+                        class="logo-img"
+                        width="1024"
+                        height="1024"
+                        loading="lazy"
+                        decoding="async"
+                        data-fallback-src="https://placehold.co/64x64/7A7A80/FFF?text=F"
+                    >
+                    Flowy
+                </div>
+                <div class="footer-links">
+                    <a href="mailto:team@heyflowy.app">Contact</a>
+                    <span class="dot-separator">·</span>
+                    <a href="#" id="privacy-link">Privacy Policy</a>
+                </div>
+                <div>Help us build Flowy. Your ideas shape what comes next → <a href="mailto:team@heyflowy.app" class="footer-email-link">team@heyflowy.app</a></div>
+                <div>© 2026 Flowy. Your data stays on your device.</div>
             </div>
-            <div class="footer-links">
-                <a href="mailto:team@heyflowy.app">Contact</a>
-                <span class="dot-separator">·</span>
-                <a href="#" id="privacy-link">Privacy Policy</a>
-            </div>
-            <div>Help us build Flowy. Your ideas shape what comes next → <a href="mailto:team@heyflowy.app" style="color: var(--ink-300); text-decoration: underline;">team@heyflowy.app</a></div>
-            <div>© 2026 Flowy. Your data stays on your device.</div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
-    <div class="modal" id="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <iframe id="waitlist-submit-frame" name="waitlist-submit-frame" class="visually-hidden" tabindex="-1" aria-hidden="true"></iframe>
+
+    <div class="modal" id="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-summary" aria-hidden="true">
         <div class="modal-overlay" id="modal-overlay"></div>
-        <div class="modal-content glass glass-l1">
-            <button class="modal-close" id="modal-close" aria-label="Close modal">&times;</button>
+        <div class="modal-content glass glass-l1" tabindex="-1">
+            <button class="modal-close" id="modal-close" aria-label="Close privacy policy">&times;</button>
             <div class="modal-body">
                 <h2 id="modal-title">Flowy Privacy Policy</h2>
                 <div class="last-updated">LAST UPDATED: MARCH 2026</div>
-                
-                <p>At Flowy, we believe in digital wellness and treating your data with respect. This simple Privacy Policy explains how we handle your information while you are on our waitlist.</p>
+
+                <p id="modal-summary">At Flowy, we believe in digital wellness and treating your data with respect. This simple Privacy Policy explains how we handle your information while you are on our waitlist.</p>
 
                 <h3>1. What Information We Collect</h3>
                 <p>When you join our waitlist, the only personal information we collect is your <strong>email address</strong>.</p>
@@ -1108,181 +271,6 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // ==========================================
-            // PHONE SCREEN ANIMATION
-            // ==========================================
-            const screens = document.querySelectorAll('.phone-screen img');
-            if (screens.length > 0) {
-                const durations = [3000, 1500, 2500, 3500, 2000, 3000, 4000];
-                let current = 0;
-                
-                function showScreen(index) {
-                    screens.forEach(s => s.classList.remove('active'));
-                    screens[index].classList.add('active');
-                }
-                
-                function cycle() {
-                    showScreen(current);
-                    setTimeout(() => {
-                        current = (current + 1) % screens.length;
-                        cycle();
-                    }, durations[current]);
-                }
-                
-                showScreen(0);
-                setTimeout(() => {
-                    current = 1;
-                    cycle();
-                }, durations[0]);
-            }
-
-            // ==========================================
-            // LIVE WAITLIST COUNTER SETTINGS
-            // ==========================================
-            let actualWaitlistNumber = 16;
-            const countDisplays = document.querySelectorAll('.waitlist-number-display');
-            const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzuNsePfdKgmaQta0udr6UpLlbTcxNQWh3mnmvkd-nwpyfI3qpjB43ccGKw1KMV0Rin5Q/exec"; 
-
-            if (SHEET_API_URL && countDisplays.length > 0) {
-                fetch(SHEET_API_URL)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && typeof data.count === 'number') {
-                            actualWaitlistNumber = data.count;
-                            countDisplays.forEach(display => display.textContent = actualWaitlistNumber);
-                        }
-                    })
-                    .catch(err => {
-                        console.log('Could not fetch live count, using fallback.');
-                        countDisplays.forEach(display => display.textContent = actualWaitlistNumber);
-                    });
-            } else if (countDisplays.length > 0) {
-                countDisplays.forEach(display => display.textContent = actualWaitlistNumber);
-            }
-
-            // ==========================================
-            // STICKY NAV OBSERVER 
-            // ==========================================
-            const nav = document.getElementById('site-nav');
-            const sentinel = document.getElementById('nav-sentinel');
-            
-            if ('IntersectionObserver' in window) {
-                const navObserver = new IntersectionObserver((entries) => {
-                    if (!entries[0].isIntersecting) {
-                        nav.classList.add('is-sticky');
-                    } else {
-                        nav.classList.remove('is-sticky');
-                    }
-                }, { threshold: 0 });
-                
-                navObserver.observe(sentinel);
-            }
-
-            // ==========================================
-            // FORM SUBMISSION HANDLING
-            // ==========================================
-            const formGroups = document.querySelectorAll('.form-group');
-            const hasJoined = localStorage.getItem('flowy_waitlist_joined') === 'true';
-
-            if (hasJoined) {
-                formGroups.forEach(group => {
-                    const groupForm = group.querySelector('.waitlist-form');
-                    const groupSuccess = group.querySelector('.success-message');
-                    if (groupForm && groupSuccess) {
-                        groupForm.classList.add('is-hidden');
-                        groupSuccess.style.transition = 'none';
-                        groupSuccess.classList.add('is-visible');
-                    }
-                });
-            }
-            
-            formGroups.forEach(group => {
-                const form = group.querySelector('.waitlist-form');
-                if (!form) return;
-
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    
-                    if (form.dataset.submitting === 'true') return;
-                    form.dataset.submitting = 'true';
-
-                    const input = form.querySelector('.email-input');
-                    const btn = form.querySelector('.cta-button');
-                    const originalBtnText = btn.textContent;
-                    
-                    if (input.value && input.checkValidity()) {
-                        btn.textContent = 'Joining...';
-
-                        fetch(form.action, {
-                            method: 'POST',
-                            body: new FormData(form),
-                            mode: 'no-cors'
-                        }).then(() => {
-                            localStorage.setItem('flowy_waitlist_joined', 'true');
-
-                            if (!hasJoined) {
-                                actualWaitlistNumber++;
-                                countDisplays.forEach(display => {
-                                    display.textContent = actualWaitlistNumber;
-                                    display.classList.add('just-updated');
-                                    setTimeout(() => display.classList.remove('just-updated'), 1000);
-                                });
-                            }
-
-                            formGroups.forEach(g => {
-                                const gForm = g.querySelector('.waitlist-form');
-                                const gSuccess = g.querySelector('.success-message');
-                                
-                                if (gForm && gSuccess) {
-                                    gForm.classList.add('is-hidden');
-                                    gSuccess.style.transition = ''; 
-                                    gSuccess.classList.add('is-visible');
-                                }
-                            });
-                        }).catch(err => {
-                            console.log('Silently ignoring fetch error for demo');
-                            form.dataset.submitting = 'false';
-                            btn.textContent = originalBtnText;
-                        });
-                    } else {
-                        form.dataset.submitting = 'false';
-                    }
-                });
-            });
-
-            // ==========================================
-            // PRIVACY POLICY MODAL LOGIC
-            // ==========================================
-            const privacyLink = document.getElementById('privacy-link');
-            const privacyModal = document.getElementById('privacy-modal');
-            const modalClose = document.getElementById('modal-close');
-            const modalOverlay = document.getElementById('modal-overlay');
-
-            const openModal = (e) => {
-                e.preventDefault();
-                privacyModal.classList.add('is-visible');
-                document.body.classList.add('modal-open');
-                setTimeout(() => modalClose.focus(), 100); 
-            };
-
-            const closeModal = () => {
-                privacyModal.classList.remove('is-visible');
-                document.body.classList.remove('modal-open');
-                privacyLink.focus();
-            };
-
-            privacyLink.addEventListener('click', openModal);
-            modalClose.addEventListener('click', closeModal);
-            modalOverlay.addEventListener('click', closeModal);
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && privacyModal.classList.contains('is-visible')) {
-                    closeModal();
-                }
-            });
-        });
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
