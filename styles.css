@@ -930,7 +930,7 @@ main > section,
 }
 
 .small-text-blue {
-    color: var(--flow-blue);
+    color: var(--ink-500);
 }
 
 .small-text-ink {
@@ -1006,13 +1006,13 @@ main > section,
     }
 
     .headline {
-        font-size: clamp(56px, 5.2vw, 72px);
-        letter-spacing: -3px;
-        line-height: 1.02;
+        font-size: clamp(50px, 4.55vw, 62px);
+        letter-spacing: -2.5px;
+        line-height: 1.03;
     }
 
     .sub-headline {
-        max-width: 34rem;
+        max-width: 36rem;
     }
 
     .hero {
@@ -1021,22 +1021,22 @@ main > section,
     }
 
     .hero-container {
-        grid-template-columns: minmax(0, 1fr) minmax(270px, 310px);
-        column-gap: 72px;
+        grid-template-columns: minmax(0, 1.2fr) minmax(250px, 292px);
+        column-gap: 58px;
         align-items: start;
     }
 
     .hero-text-top,
     .hero-form-wrapper {
-        max-width: 34rem;
+        max-width: 38rem;
     }
 
     .hero-form-wrapper {
-        margin-top: 36px;
+        margin-top: 24px;
     }
 
     .action-block {
-        gap: 14px;
+        gap: 10px;
     }
 
     .hero-mockup {
@@ -1049,7 +1049,7 @@ main > section,
     }
 
     .form-group {
-        max-width: 492px;
+        max-width: 474px;
     }
 
     .cta-button {
@@ -1199,6 +1199,8 @@ body {
 }
 
 .hero-kicker {
+    padding: 5px 12px;
+    font-size: 12.5px;
     font-weight: 700;
     letter-spacing: -0.025em;
 }
@@ -1222,6 +1224,16 @@ body {
     font-size: 19px;
     line-height: 1.62;
     letter-spacing: -0.025em;
+}
+
+.hero-support {
+    margin-top: 12px;
+    max-width: 28rem;
+    font-size: 16px;
+    line-height: 1.55;
+    letter-spacing: -0.015em;
+    color: var(--ink-500);
+    text-wrap: pretty;
 }
 
 .eyebrow {
@@ -1257,6 +1269,7 @@ body {
 }
 
 .small-text {
+    font-size: 12.5px;
     line-height: 1.58;
     letter-spacing: -0.015em;
 }
@@ -1299,11 +1312,15 @@ body {
 
 @media (min-width: 769px) {
     .headline {
-        max-width: 10ch;
+        max-width: 14.6ch;
     }
 
     .sub-headline {
-        max-width: 31rem;
+        max-width: 34rem;
+    }
+
+    .hero-support {
+        max-width: 26rem;
     }
 
     .tagline {
@@ -1323,6 +1340,8 @@ body {
 
 @media (max-width: 768px) {
     .hero-kicker {
+        padding: 5px 10px;
+        font-size: 11.5px;
         line-height: 1.3;
     }
 
@@ -1335,6 +1354,12 @@ body {
     .sub-headline {
         font-size: 16.5px;
         line-height: 1.58;
+    }
+
+    .hero-support {
+        margin-top: 10px;
+        font-size: 14.5px;
+        line-height: 1.5;
     }
 
     .eyebrow {

@@ -39,7 +39,7 @@ function initPhoneCarousel() {
         return;
     }
 
-    const durations = [3000, 1500, 2500, 3500, 2000, 3000, 4000];
+    const durations = [3500, 2500, 2000, 3000, 4000];
 
     const showScreen = (index) => {
         screens.forEach((screen, screenIndex) => {
